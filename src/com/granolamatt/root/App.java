@@ -1,0 +1,151 @@
+package com.granolamatt.root;
+
+import com.granolamatt.hardware.HardwareMemory;
+import com.granolamatt.htmlhelpers.BasicDocument;
+import com.granolamatt.logger.LoggerOut;
+import com.sun.jersey.api.container.httpserver.HttpServerFactory;
+import java.io.IOException;
+import java.net.URI;
+
+import javax.ws.rs.core.UriBuilder;
+
+import com.sun.net.httpserver.HttpServer;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class App {
+
+    private static String bindAddress = "localhost";
+    private static HttpServer server;
+    private final static List<ActiveModule> moduleList = new LinkedList<>();
+
+    static void startServer() throws IOException {
+
+//        HttpServer server = HttpServer.create(new InetSocketAddress(getBaseURI().getPort()), 0);
+        server = HttpServerFactory.create(getBaseURI());
+
+//        JaxLoggingApplication loggerApp = new JaxLoggingApplication();
+//        HttpHandler loggingHandler = ContainerFactory.createContainer(HttpHandler.class, loggerApp.getClasses());
+//        HttpHandler loggingHandler = RuntimeDelegate.getInstance().createEndpoint(loggerApp, HttpHandler.class);
+//        JaxRootApplication rootApp = new JaxRootApplication();
+//        HttpHandler rootHandler = RuntimeDelegate.getInstance().createEndpoint(rootApp, HttpHandler.class);
+//        HttpHandler rootHandler = ContainerFactory.createContainer(HttpHandler.class, rootApp.getClasses());
+
+
+        server.createContext(getBaseURI().getPath());
+        server.start();
+
+//        File f = new File("/mnt/vg_matt-lvol0/NetBeansProjects/DynamicLoaderTest/dist/DynamicLoaderTest.jar");
+//        JaxRsDynamicLoader dynamicLoader = new JaxRsDynamicLoader(f);
+//        HttpHandler dynamicHandler = RuntimeDelegate.getInstance().createEndpoint(dynamicLoader, HttpHandler.class);
+//        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader.getClasses());
+
+//        server.createContext(getBaseURI().getPath() + rootApp.getContext(), rootHandler);
+//        System.out.println("Adding dynamic context " + dynamicLoader.getContext());
+//        server.createContext(getBaseURI().getPath() + dynamicLoader.getContext(), dynamicHandler);
+//        server.createContext(getBaseURI().getPath() + loggerApp.getContext(), loggingHandler);
+        ActiveModule root = new ActiveModule(server);
+        synchronized (moduleList) {
+            moduleList.add(root);
+        }
+
+    }
+
+    public static void addModule(File file) {
+        ActiveModule am = new ActiveModule(server, file);
+        synchronized (moduleList) {
+            moduleList.add(am);
+        }
+    }
+
+    public static void removeModule(String moduleContext) {
+        synchronized (moduleList) {
+            LinkedList<ActiveModule> removeList = new LinkedList<>();
+            for (ActiveModule module : moduleList) {
+                if (module.getContext().equals(moduleContext)) {
+                    removeList.add(module);
+                    module.stopModule();
+                }
+            }
+            for (ActiveModule module : removeList) {
+                moduleList.remove(module);
+            }
+        }
+        server.removeContext("/" + moduleContext);
+    }
+
+    private static void testGPIO() {
+        HardwareMemory.InpGPIO(4); // must use INP_GPIO before we can use OUT_GPIO
+        HardwareMemory.OutGPIO(4);
+        HardwareMemory.InpGPIO(17); // must use INP_GPIO before we can use OUT_GPIO
+        HardwareMemory.OutGPIO(17);
+        HardwareMemory.InpGPIO(27); // must use INP_GPIO before we can use OUT_GPIO
+        HardwareMemory.OutGPIO(27);
+
+
+        for (int rep = 0; rep < 10; rep++) {
+            try {
+                HardwareMemory.GPIOSetPinNumber(4);
+                Thread.sleep(1000);
+                HardwareMemory.GPIOSetPinNumber(17);
+                Thread.sleep(1000);
+                HardwareMemory.GPIOSetPinNumber(27);
+                Thread.sleep(1000);
+                HardwareMemory.GPIOClrPinNumber(4);
+                Thread.sleep(1000);
+                HardwareMemory.GPIOClrPinNumber(17);
+                Thread.sleep(1000);
+                HardwareMemory.GPIOClrPinNumber(27);
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        HardwareMemory.loadDriver();
+        if (args.length > 0) {
+            bindAddress = args[0];
+        }
+        System.out.println("\"Hello World\" Jersey Example Application");
+
+        startServer();
+
+        LoggerOut.println("Application started.\n");
+        System.out.println(
+                "Try accessing " + getBaseURI() + "root in the browser.\n"
+                + "Hit enter to stop the application...");
+        System.in.read();
+        server.stop(0);
+    }
+
+    public static void getModulesInfo(BasicDocument doc) {
+        synchronized (moduleList) {
+            for (ActiveModule module : moduleList) {
+                doc.addContent(module.getInfo());
+            }
+        }
+    }
+
+    private static int getPort(int defaultPort) {
+        final String port = System.getProperty("jersey.config.test.container.port");
+        if (null != port) {
+            try {
+                return Integer.parseInt(port);
+            } catch (NumberFormatException e) {
+                System.out.println("Value of jersey.config.test.container.port property"
+                        + " is not a valid positive integer [" + port + "]."
+                        + " Reverting to default [" + defaultPort + "].");
+            }
+        }
+        return defaultPort;
+    }
+
+    public static URI getBaseURI() {
+        return UriBuilder.fromUri("http://" + bindAddress + "/").port(getPort(7023)).build();
+    }
+}
