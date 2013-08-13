@@ -4,55 +4,55 @@
  */
 package com.granolamatt.htmlhelpers;
 
+import com.granolamatt.html.HTMLBody;
+import com.granolamatt.html.HTMLMETA;
+import com.granolamatt.html.HTMLP;
+import com.granolamatt.html.HTMLhtml;
+
 /**
  *
  * @author root
  */
 public class BasicDocument {
 
-    private final StringBuilder buffer = new StringBuilder();
-    private int refresh = -1;
+//    private final StringBuilder buffer = new StringBuilder();
+//    private int refresh = -1;
+    private HTMLMETA meta = null;
+    private HTMLP para = new HTMLP();
 
     public BasicDocument() {
     }
 
     public BasicDocument(int refresh) {
-        this.refresh = refresh;
+        this();
+        meta = new HTMLMETA().setRefresh(refresh);
     }
 
     public void setRefresh(int seconds) {
-        refresh = seconds;
+        meta = new HTMLMETA().setRefresh(seconds);
     }
 
     public void addLine(String line) {
-        buffer.append(line).append("<br>\n");
+        para.addLine(line);
     }
 
     public void addContent(String content) {
-        buffer.append(content);
+        para.addText(content);
     }
 
     public void addContent(StringBuilder content) {
-        buffer.append(content);
+        addContent(content.toString());
     }
 
     @Override
     public String toString() {
-        StringBuilder sbuilder = new StringBuilder();
-        sbuilder.append("<!DOCTYPE html>\n");
-        sbuilder.append("<html>\n");
-        if (refresh >= 0) {
-            sbuilder.append("<META HTTP-EQUIV=\"refresh\" CONTENT=\"");
-            sbuilder.append(refresh);
-            sbuilder.append("\">\n");
+        StringBuilder cont = new StringBuilder();
+        HTMLhtml document = new HTMLhtml();
+        if (meta != null) {
+            document.addHTMLContent(meta);
         }
-        sbuilder.append("<body>\n");
-        sbuilder.append("<p>");
-        sbuilder.append(buffer);
-        sbuilder.append("</p>\n");
-
-        sbuilder.append("</body>\n");
-        sbuilder.append("</html>\n");
-        return sbuilder.toString();
+        document.addHTMLContent(new HTMLBody()).addHTMLContent(para);
+        document.getHTML(cont);
+        return cont.toString();
     }
 }

@@ -87,8 +87,7 @@ public class ActiveModule {
     private void addRemove() {
         moduleInfo.append("<p>");
         
-        moduleInfo.append("<a href=\"");
-        moduleInfo.append(App.getBaseURI());
+        moduleInfo.append("<a href=\"/");
 //        moduleInfo.append(App.getBaseURI()).deleteCharAt(moduleInfo.length() - 1);
         moduleInfo.append("remove/");
         moduleInfo.append(context);
@@ -101,8 +100,7 @@ public class ActiveModule {
 
     private StringBuilder getHyperLink(String url, String text) {
         StringBuilder ret = new StringBuilder();
-        ret.append("<a href=\"");
-        ret.append(App.getBaseURI());
+        ret.append("<a href=\"/");
         if (context.equals("")) {
             ret.deleteCharAt(ret.length() - 1);
         } else {
@@ -116,13 +114,11 @@ public class ActiveModule {
     }
 
     private void addHyperLink(String url) {
-        moduleInfo.append("<a href=\"");
-        moduleInfo.append(App.getBaseURI());
+        moduleInfo.append("<a href=\"/");
 //        moduleInfo.append(App.getBaseURI()).deleteCharAt(moduleInfo.length() - 1);
         moduleInfo.append(context);
         moduleInfo.append(url);
-        moduleInfo.append("\"target=\"_blank\">");
-        moduleInfo.append(App.getBaseURI());
+        moduleInfo.append("\"target=\"_blank\">/");
         moduleInfo.append(context);
         moduleInfo.append(url);
         moduleInfo.append("</a>\n");

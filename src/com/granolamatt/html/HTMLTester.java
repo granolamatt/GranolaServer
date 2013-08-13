@@ -2,30 +2,26 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.granolamatt.htmlhelpers;
+package com.granolamatt.html;
 
-import com.granolamatt.html.HTMLDiv;
-import com.granolamatt.html.HTMLForm;
-import com.granolamatt.html.HTMLInput;
-import com.granolamatt.html.HTMLP;
+import com.granolamatt.htmlhelpers.FileChooser;
 
 /**
  *
  * @author root
  */
-public class FileChooser {
-    
-    private String path = "/";
-    
-    
-    public void setPath(String path) {
-        this.path = path;
-    }
+public class HTMLTester {
 
-    public String getContent() {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws Exception {
+
+        FileChooser doc = new FileChooser();
+        System.out.println("Doc is " + doc.getContent());
 
         HTMLForm form = new HTMLForm();
-        form.addAttribute("action", path);
+        form.addAttribute("action", "/");
         form.addAttribute("enctype", "multipart/form-data");
         form.addAttribute("method", "post");
         HTMLP para = new HTMLP();
@@ -45,8 +41,8 @@ public class FileChooser {
 
         StringBuilder s = new StringBuilder();
         form.getHTML(s);
+        System.out.println("MyForm is " + s);
 
 
-        return s.toString();
     }
 }

@@ -66,8 +66,11 @@ public class RestRoot {
             @FormDataParam("datafile") InputStream uploadedInputStream,
             @FormDataParam("datafile") FormDataContentDisposition fileDetail) { //            (byte[] summary) {
 
-        String uploadedFileLocation = "/tmp/" + fileDetail.getFileName();
+        String uploadedFileLocation = "/opt/granola/" + fileDetail.getFileName();
         LoggerOut.println("File is type " + fileDetail.getName());
+        
+        File uploadDir = new File("/opt/granola");
+        uploadDir.mkdirs();
         
         writeToFile(uploadedInputStream, uploadedFileLocation);
         String output = "File uploaded to : " + uploadedFileLocation;

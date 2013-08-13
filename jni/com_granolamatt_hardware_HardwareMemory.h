@@ -15,6 +15,22 @@ extern "C" {
 JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupIO
   (JNIEnv *, jclass);
 
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    setupI2C
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    downUser
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_granolamatt_hardware_HardwareMemory_downUser
+  (JNIEnv *, jclass, jstring);
+
 #ifdef __cplusplus
 }
 #endif

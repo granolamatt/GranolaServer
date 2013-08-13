@@ -51,7 +51,22 @@ public class App {
         synchronized (moduleList) {
             moduleList.add(root);
         }
+        
+        loadFromDir();
 
+    }
+    
+    public static void loadFromDir() {
+        File uploadDir = new File("/opt/granola");
+        if (uploadDir.exists() && uploadDir.isDirectory()) {
+            File[] files = uploadDir.listFiles();
+            for (File testJar : files) {
+                if (testJar.getName().endsWith(".jar")) {
+                    addModule(testJar);
+                }
+            }
+        }
+        
     }
 
     public static void addModule(File file) {
@@ -75,36 +90,40 @@ public class App {
             }
         }
         server.removeContext("/" + moduleContext);
-    }
-
-    private static void testGPIO() {
-        HardwareMemory.InpGPIO(4); // must use INP_GPIO before we can use OUT_GPIO
-        HardwareMemory.OutGPIO(4);
-        HardwareMemory.InpGPIO(17); // must use INP_GPIO before we can use OUT_GPIO
-        HardwareMemory.OutGPIO(17);
-        HardwareMemory.InpGPIO(27); // must use INP_GPIO before we can use OUT_GPIO
-        HardwareMemory.OutGPIO(27);
-
-
-        for (int rep = 0; rep < 10; rep++) {
-            try {
-                HardwareMemory.GPIOSetPinNumber(4);
-                Thread.sleep(1000);
-                HardwareMemory.GPIOSetPinNumber(17);
-                Thread.sleep(1000);
-                HardwareMemory.GPIOSetPinNumber(27);
-                Thread.sleep(1000);
-                HardwareMemory.GPIOClrPinNumber(4);
-                Thread.sleep(1000);
-                HardwareMemory.GPIOClrPinNumber(17);
-                Thread.sleep(1000);
-                HardwareMemory.GPIOClrPinNumber(27);
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        File jarFile = new File("/opt/granola/" +  moduleContext + ".jar");
+        if (jarFile.exists()) {
+            jarFile.delete();
         }
     }
+
+//    private static void testGPIO() {
+//        HardwareMemory.InpGPIO(4); // must use INP_GPIO before we can use OUT_GPIO
+//        HardwareMemory.OutGPIO(4);
+//        HardwareMemory.InpGPIO(17); // must use INP_GPIO before we can use OUT_GPIO
+//        HardwareMemory.OutGPIO(17);
+//        HardwareMemory.InpGPIO(27); // must use INP_GPIO before we can use OUT_GPIO
+//        HardwareMemory.OutGPIO(27);
+//
+//
+//        for (int rep = 0; rep < 10; rep++) {
+//            try {
+//                HardwareMemory.GPIOSetPinNumber(4);
+//                Thread.sleep(1000);
+//                HardwareMemory.GPIOSetPinNumber(17);
+//                Thread.sleep(1000);
+//                HardwareMemory.GPIOSetPinNumber(27);
+//                Thread.sleep(1000);
+//                HardwareMemory.GPIOClrPinNumber(4);
+//                Thread.sleep(1000);
+//                HardwareMemory.GPIOClrPinNumber(17);
+//                Thread.sleep(1000);
+//                HardwareMemory.GPIOClrPinNumber(27);
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
 
     public static void main(String[] args) throws IOException {
         HardwareMemory.loadDriver();
@@ -117,9 +136,30 @@ public class App {
 
         LoggerOut.println("Application started.\n");
         System.out.println(
-                "Try accessing " + getBaseURI() + "root in the browser.\n"
-                + "Hit enter to stop the application...");
-        System.in.read();
+                "Try accessing " + getBaseURI() + "root in the browser.\n");
+        final Thread thisThread = Thread.currentThread();
+        Thread stop = new Thread() {
+            @Override
+            public void run() {
+                synchronized (thisThread) {
+                    thisThread.notify();
+                }
+                try {
+                    thisThread.join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(stop);
+        synchronized (thisThread) {
+            try {
+                thisThread.wait();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         server.stop(0);
     }
 

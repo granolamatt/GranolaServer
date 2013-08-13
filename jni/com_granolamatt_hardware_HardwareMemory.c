@@ -10,6 +10,7 @@
 
 #define BCM2708_PERI_BASE        0x20000000
 #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
+#define BSC0_BASE     			 (BCM2708_PERI_BASE + 0x205000)  // I2C controller 
 
 #include <jni.h>
 #include <stdio.h>
@@ -59,7 +60,63 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupIO
       exit(-1);
    }
 
-  if ((p = getpwnam("pi")) == NULL) {
+   return (*env)->NewDirectByteBuffer(env, gpio_map, BLOCK_SIZE);
+
+} // setup_io
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    setupI2C
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
+  (JNIEnv *env, jclass class) {
+   int  mem_fd;
+   void *bsc0_map;
+   volatile unsigned *bsc0;
+   int ures, gres;
+   struct passwd *p;
+
+   /* open /dev/mem */
+   if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
+      printf("can't open /dev/mem \n");
+      exit(-1);
+   }
+
+   /* mmap GPIO */
+   bsc0_map = mmap(
+      NULL,             //Any adddress in our space will do
+      BLOCK_SIZE,       //Map length
+      PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
+      MAP_SHARED,       //Shared with other processes
+      mem_fd,           //File to map
+      BSC0_BASE         //Offset to I2C peripheral
+   );
+
+   close(mem_fd); //No need to keep mem_fd open after mmap
+
+   if (bsc0_map == MAP_FAILED) {
+      printf("mmap error \n");//errno also set!
+      exit(-1);
+   }
+
+   return (*env)->NewDirectByteBuffer(env, bsc0_map, BLOCK_SIZE);
+
+} // setup_i2c
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    downUser
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_granolamatt_hardware_HardwareMemory_downUser
+  (JNIEnv *env, jclass class, jstring user) {
+   int ures, gres;
+   struct passwd *p;
+
+  const char *nativeString = (*env)->GetStringUTFChars(env, user, 0);
+
+  if ((p = getpwnam(nativeString)) == NULL) {
     perror("getpwnam() error");
     exit(-1);
   } else {
@@ -75,6 +132,7 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupIO
    gres = setgid(p->pw_gid);
    ures = setuid(p->pw_uid);
    printf("URES %d GRES %d \n",ures,gres);
-   return (*env)->NewDirectByteBuffer(env, gpio_map, BLOCK_SIZE);
+   (*env)->ReleaseStringUTFChars(env, user, nativeString);
 
-} // setup_io
+} // downUser
+
