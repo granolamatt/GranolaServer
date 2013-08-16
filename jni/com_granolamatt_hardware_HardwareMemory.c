@@ -8,21 +8,64 @@
 
 // Access from ARM Running Linux
 
-#define BCM2708_PERI_BASE        0x20000000
-#define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
-#define BSC0_BASE     			 (BCM2708_PERI_BASE + 0x205000)  // I2C controller 
-
 #include <jni.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <unistd.h>
 #include <pwd.h>
+#include "com_granolamatt_hardware_HardwareMemory.h"
 
 #define PAGE_SIZE (4*1024)
 #define BLOCK_SIZE (4*1024)
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    getPCBRev
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_granolamatt_hardware_HardwareMemory_getPCBRev
+  (JNIEnv *env, jclass class) {
+   FILE* cpuinfo = fopen("/proc/cpuinfo", "r");
+   int pcbRev = 0;
+   if (cpuinfo) {
+      char* line = NULL;
+      ssize_t linelen;
+      size_t foo;
+      
+
+      while (((linelen = getline(&line, &foo, cpuinfo)) >= 0))
+            {
+                if (strstr(line, "Revision") == line)
+                {
+                    char* rev = strstr(line, ":");
+                    if (rev)
+                    {
+                        long revision = strtol(rev + 1, NULL, 16);
+
+                        if (revision <= 3)
+                        {
+                            pcbRev = 1;
+                        }
+                        
+                        else
+                        {
+                            pcbRev = 2;
+                        }
+                    }
+                }
+            } /* while */
+            if (line)
+            {
+                free(line);
+            }
+            fclose(cpuinfo);
+        }
+     return pcbRev;
+}
 
 /*
  * Class:     com_granolamatt_hardware_HardwareMemory
@@ -50,7 +93,7 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupIO
       PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
       MAP_SHARED,       //Shared with other processes
       mem_fd,           //File to map
-      GPIO_BASE         //Offset to GPIO peripheral
+      com_granolamatt_hardware_HardwareMemory_GPIO_BASE         //Offset to GPIO peripheral
    );
 
    close(mem_fd); //No need to keep mem_fd open after mmap
@@ -70,7 +113,7 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupIO
  * Signature: ()Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
-  (JNIEnv *env, jclass class) {
+  (JNIEnv *env, jclass class, jint pcbVersion) {
    int  mem_fd;
    void *bsc0_map;
    volatile unsigned *bsc0;
@@ -83,6 +126,7 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
       exit(-1);
    }
 
+   if (pcbVersion == 1) {
    /* mmap GPIO */
    bsc0_map = mmap(
       NULL,             //Any adddress in our space will do
@@ -90,8 +134,19 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
       PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
       MAP_SHARED,       //Shared with other processes
       mem_fd,           //File to map
-      BSC0_BASE         //Offset to I2C peripheral
+      com_granolamatt_hardware_HardwareMemory_BSC0_BASE         //Offset to I2C peripheral
    );
+   } else {
+   /* mmap GPIO */
+   bsc0_map = mmap(
+      NULL,             //Any adddress in our space will do
+      BLOCK_SIZE,       //Map length
+      PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
+      MAP_SHARED,       //Shared with other processes
+      mem_fd,           //File to map
+      com_granolamatt_hardware_HardwareMemory_BSC1_BASE         //Offset to I2C peripheral
+   );   
+   }
 
    close(mem_fd); //No need to keep mem_fd open after mmap
 

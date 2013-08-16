@@ -6,6 +6,11 @@ package com.granolamatt.logger;
 
 import com.granolamatt.htmlhelpers.BasicDocument;
 import com.granolamatt.htmlhelpers.GetFunctions;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.logging.Level;
@@ -50,4 +55,33 @@ public class RestLogger {
         return Response.status(Response.Status.OK).entity(doc.toString()).build();
     }
 
+    @GET
+    @Path("/example")
+    @Produces(MediaType.TEXT_HTML)
+    public Response getExample() {
+        try {
+            StringBuilder doc = new StringBuilder();
+
+            InputStream in = ClassLoader.getSystemResourceAsStream("com/granolamatt/html/gridwdata.html");
+
+            InputStreamReader sr = new InputStreamReader(in);
+            BufferedReader br = new BufferedReader(sr);
+            String rr;
+            while ((rr = br.readLine()) != null) {
+                doc.append(rr + "\n");
+            }
+
+            return Response.status(Response.Status.OK).entity(doc.toString()).build();
+        } catch (IOException ex) {
+            Logger.getLogger(RestLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
+    @GET
+    @Path("/data")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getExampleData() {
+        return Response.ok(new BatterExampleData()).build();
+    }
 }

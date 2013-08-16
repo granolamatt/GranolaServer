@@ -41,13 +41,12 @@ public class RestHardware {
         BasicDocument doc = new BasicDocument();
         if (pin != 0 && pin < 32) {
             if (!pinDirection.containsKey(pin)) {
-                HardwareMemory.InpGPIO(pin);
-                HardwareMemory.OutGPIO(pin);
+                HardwareMemory.gpioSetFunction(pin, HardwareMemory.eFunction.output);
                 pinDirection.put(pin, PinDirection.OUTPUT);
                 pinStatus.put(pin, PinStatus.OFF);
             }
             if (pinDirection.get(pin).equals(PinDirection.OUTPUT)) {
-                HardwareMemory.GPIOSetPinNumber(pin);
+                HardwareMemory.gpioSetPin(pin, HardwareMemory.eState.high);
                 pinStatus.put(pin, PinStatus.ON);
                 doc.addContent("Turned on pin " + pin + "<br>");
                 LoggerOut.println("Turned on pin " + pin);
@@ -67,13 +66,14 @@ public class RestHardware {
         BasicDocument doc = new BasicDocument();
         if (pin != 0 && pin < 32) {
             if (!pinDirection.containsKey(pin)) {
-                HardwareMemory.InpGPIO(pin);
-                HardwareMemory.OutGPIO(pin);
-                pinDirection.put(pin, PinDirection.OUTPUT);
+//                HardwareMemory.gpioSetFunction(pin, HardwareMemory.eFunction.input);
+                HardwareMemory.gpioSetFunction(pin, HardwareMemory.eFunction.output);
+//                pinDirection.put(pin, PinDirection.OUTPUT);
+                HardwareMemory.gpioSetPin(pin, HardwareMemory.eState.low);
                 pinStatus.put(pin, PinStatus.OFF);
             }
             if (pinDirection.get(pin).equals(PinDirection.OUTPUT)) {
-                HardwareMemory.GPIOClrPinNumber(pin);
+                HardwareMemory.gpioSetPin(pin, HardwareMemory.eState.low);
                 doc.addContent("Turned off pin " + pin + "<br>");
                 pinStatus.put(pin, PinStatus.OFF);
                 LoggerOut.println("Turned off pin " + pin);
