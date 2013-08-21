@@ -62,7 +62,7 @@ public class RestLogger {
         try {
             StringBuilder doc = new StringBuilder();
 
-            InputStream in = ClassLoader.getSystemResourceAsStream("com/granolamatt/html/gridwdata.html");
+            InputStream in = ClassLoader.getSystemResourceAsStream("com/granolamatt/html/tree.html");
 
             InputStreamReader sr = new InputStreamReader(in);
             BufferedReader br = new BufferedReader(sr);
@@ -82,6 +82,9 @@ public class RestLogger {
     @Path("/data")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getExampleData() {
-        return Response.ok(new BatterExampleData()).build();
+        BattersExample example = new BattersExample();
+        example.items.add(new BatterExampleData());
+        example.items.add(new BatterExampleData());
+        return Response.ok(example).build();
     }
 }

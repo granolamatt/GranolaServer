@@ -4,13 +4,12 @@
  */
 package com.granolamatt.logger;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author root
  */
-@XmlRootElement(name = "item")
+
 public class BatterExampleData {
     
     			public String bats = "R"; 

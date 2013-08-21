@@ -124,9 +124,38 @@ public class App {
 //            }
 //        }
 //    }
+    
+//    private static void testI2C() {
+//        { 
+//    int rxBuffer[] = new int[8];
+//    int txBuffer[] = new int[8];
+//    
+//
+//    HardwareMemory.gpioI2cSetup();
+//   
+//    HardwareMemory.gpioI2cSet7BitSlave(0x68);
+//
+//    txBuffer[0] = 0;
+//
+//    HardwareMemory.gpioI2cWriteData(new int[]{0});
+//
+//    HardwareMemory.gpioI2cReadData(rxBuffer);
+//
+//            System.out.println("RTC values:");
+//    for (int count = 0;count<8;count++) {
+//        System.out.println("reg:" + count  + " : " + rxBuffer[count]);
+//    }    
+//
+//    HardwareMemory.gpioI2cCleanup();
+//} 
+//
+//    }
 
     public static void main(String[] args) throws IOException {
         HardwareMemory.loadDriver();
+//        testI2C();
+        
+        
         if (args.length > 0) {
             bindAddress = args[0];
         }

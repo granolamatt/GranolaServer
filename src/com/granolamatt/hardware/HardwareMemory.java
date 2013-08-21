@@ -134,103 +134,103 @@ public class HardwareMemory {
     /**
      * ***************************************************************************
      */
-    public static final int GPFSEL0 = 0x20200000;
+    private static final int GPFSEL0 = 0x20200000;
     /**
      * <GPIO Function Select 0 Register Address
      */
-    public static final int GPFSEL1 = 0x20200004;
+    private static final int GPFSEL1 = 0x20200004;
     /**
      * <GPIO Function Select 1 Register Address
      */
-    public static final int GPFSEL2 = 0x20200008;
+    private static final int GPFSEL2 = 0x20200008;
     /**
      * <GPIO Function Select 2 Register Address
      */
-    public static final int GPFSEL3 = 0x2020000C;
+    private static final int GPFSEL3 = 0x2020000C;
     /**
      * <GPIO Function Select 3 Register Address
      */
-    public static final int GPFSEL4 = 0x20200010;
+    private static final int GPFSEL4 = 0x20200010;
     /**
      * <GPIO Function Select 4 Register Address
      */
-    public static final int GPFSEL5 = 0x20200014;
+    private static final int GPFSEL5 = 0x20200014;
     /**
      * <GPIO Function Select 5 Register Address
      */
-    public static final int GPSET0 = 0x2020001C;
+    private static final int GPSET0 = 0x2020001C;
     /**
      * <GPIO Pin Output Set 0 Register Address
      */
-    public static final int GPSET1 = 0x20200020;
+    private static final int GPSET1 = 0x20200020;
     /**
      * <GPIO Pin Output Set 1 Register Address
      */
-    public static final int GPCLR0 = 0x20200028;
+    private static final int GPCLR0 = 0x20200028;
     /**
      * <GPIO Pin Output Clear 0 Register Address
      */
-    public static final int GPCLR1 = 0x2020002C;
+    private static final int GPCLR1 = 0x2020002C;
     /**
      * <GPIO Pin Output Clear 1 Register Address
      */
-    public static final int GPLEV0 = 0x20200034;
+    private static final int GPLEV0 = 0x20200034;
     /**
      * <GPIO Pin Level 0 Register Address
      */
-    public static final int GPLEV1 = 0x20200038;
+    private static final int GPLEV1 = 0x20200038;
     /**
      * <GPIO Pin Level 1 Register Address
      */
-    public static final int GPEDS0 = 0x20200040;
+    private static final int GPEDS0 = 0x20200040;
     /**
      * <GPIO Pin Event Detect Status 0 Register Address
      */
-    public static final int GPEDS1 = 0x20200044;
+    private static final int GPEDS1 = 0x20200044;
     /**
      * <GPIO Pin Event Detect Status 1 Register Address
      */
-    public static final int GPREN0 = 0x2020004C;
+    private static final int GPREN0 = 0x2020004C;
     /**
      * <GPIO Pin Rising Edge Detect Enable 0 Register Address
      */
-    public static final int GPREN1 = 0x20200050;
+    private static final int GPREN1 = 0x20200050;
     /**
      * <GPIO Pin Rising Edge Detect Enable 1 Register Address
      */
-    public static final int GPHEN0 = 0x20200064;
+    private static final int GPHEN0 = 0x20200064;
     /**
      * <GPIO Pin High Detect Enable 0 Register Address
      */
-    public static final int GPHEN1 = 0x20200068;
+    private static final int GPHEN1 = 0x20200068;
     /**
      * <GPIO Pin High Detect Enable 1 Register Address
      */
-    public static final int GPAREN0 = 0x2020007C;
+    private static final int GPAREN0 = 0x2020007C;
     /**
      * <GPIO Pin Async. Rising Edge Detect 0 Register Address
      */
-    public static final int GPAREN1 = 0x20200080;
+    private static final int GPAREN1 = 0x20200080;
     /**
      * <GPIO Pin Async. Rising Edge Detect 1 Register Address
      */
-    public static final int GPAFEN0 = 0x20200088;
+    private static final int GPAFEN0 = 0x20200088;
     /**
      * <GPIO Pin Async. Falling Edge Detect 0 Register Address
      */
-    public static final int GPAFEN1 = 0x2020008C;
+    private static final int GPAFEN1 = 0x2020008C;
     /**
      * <GPIO Pin Async. Falling Edge Detect 1 Register Address
      */
-    public static final int GPPUD = 0x20200094;
+    private static final int GPPUD = 0x20200094;
     /**
      * <GPIO Pin Pull-up/down Enable Register Address
      */
-    public static final int GPPUDCLK0 = 0x20200098;
+    private static final int GPPUDCLK0 = 0x20200098;
     /**
      * <GPIO Pin Pull-up/down Enable Clock 0 Register Address
      */
-    public static final int GPPUDCLK1 = 0x2020009C;
+    private static final int GPPUDCLK1 = 0x2020009C;
     /**
      * <GPIO Pin Pull-up/down Enable Clock 1 Register Address
      */
@@ -241,107 +241,107 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int GPIO_BASE = GPFSEL0;
+    private static final int GPIO_BASE = GPFSEL0;
     /**
      * < First GPIO address of interest.
      */
-    public static final int GPFSEL0_OFFSET = 0x000000;
+    private static final int GPFSEL0_OFFSET = 0x000000;
     /**
      * < GPIO Function Select 0 Offset from GPIO_BASE
      */
-    public static final int GPFSEL1_OFFSET = 0x000004;
+    private static final int GPFSEL1_OFFSET = 0x000004;
     /**
      * < GPIO Function Select 1 Offset from GPIO_BASE
      */
-    public static final int GPFSEL2_OFFSET = 0x000008;
+    private static final int GPFSEL2_OFFSET = 0x000008;
     /**
      * < GPIO Function Select 2 Offset from GPIO_BASE
      */
-    public static final int GPFSEL3_OFFSET = 0x00000C;
+    private static final int GPFSEL3_OFFSET = 0x00000C;
     /**
      * < GPIO Function Select 3 Offset from GPIO_BASE
      */
-    public static final int GPFSEL4_OFFSET = 0x000010;
+    private static final int GPFSEL4_OFFSET = 0x000010;
     /**
      * < GPIO Function Select 4 Offset from GPIO_BASE
      */
-    public static final int GPFSEL5_OFFSET = 0x000014;
+    private static final int GPFSEL5_OFFSET = 0x000014;
     /**
      * < GPIO Function Select 5 Offset from GPIO_BASE
      */
-    public static final int GPSET0_OFFSET = 0x00001C;
+    private static final int GPSET0_OFFSET = 0x00001C;
     /**
      * < GPIO Pin Output Set 0 Offset from GPIO_BASE
      */
-    public static final int GPSET1_OFFSET = 0x000020;
+    private static final int GPSET1_OFFSET = 0x000020;
     /**
      * < GPIO Pin Output Set 1 Offset from GPIO_BASE
      */
-    public static final int GPCLR0_OFFSET = 0x000028;
+    private static final int GPCLR0_OFFSET = 0x000028;
     /**
      * < GPIO Pin Output Clear 0 Offset from GPIO_BASE
      */
-    public static final int GPCLR1_OFFSET = 0x00002C;
+    private static final int GPCLR1_OFFSET = 0x00002C;
     /**
      * < GPIO Pin Output Clear 1 Offset from GPIO_BASE
      */
-    public static final int GPLEV0_OFFSET = 0x000034;
+    private static final int GPLEV0_OFFSET = 0x000034;
     /**
      * < GPIO Pin Level 0 Offset from GPIO_BASE
      */
-    public static final int GPLEV1_OFFSET = 0x000038;
+    private static final int GPLEV1_OFFSET = 0x000038;
     /**
      * < GPIO Pin Level 1 Offset from GPIO_BASE
      */
-    public static final int GPEDS0_OFFSET = 0x000040;
+    private static final int GPEDS0_OFFSET = 0x000040;
     /**
      * < GPIO Pin Event Detect Status 0 Offset from GPIO_BASE
      */
-    public static final int GPEDS1_OFFSET = 0x000044;
+    private static final int GPEDS1_OFFSET = 0x000044;
     /**
      * < GPIO Pin Event Detect Status 1 Offset from GPIO_BASE
      */
-    public static final int GPREN0_OFFSET = 0x00004C;
+    private static final int GPREN0_OFFSET = 0x00004C;
     /**
      * < GPIO Pin Rising Edge Detect Enable 0 Offset from GPIO_BASE
      */
-    public static final int GPREN1_OFFSET = 0x000050;
+    private static final int GPREN1_OFFSET = 0x000050;
     /**
      * < GPIO Pin Rising Edge Detect Enable 1 Offset from GPIO_BASE
      */
-    public static final int GPHEN0_OFFSET = 0x000064;
+    private static final int GPHEN0_OFFSET = 0x000064;
     /**
      * < GPIO Pin High Detect Enable 0 Offset from GPIO_BASE
      */
-    public static final int GPHEN1_OFFSET = 0x000068;
+    private static final int GPHEN1_OFFSET = 0x000068;
     /**
      * < GPIO Pin High Detect Enable 1 Offset from GPIO_BASE
      */
-    public static final int GPAREN0_OFFSET = 0x00007C;
+    private static final int GPAREN0_OFFSET = 0x00007C;
     /**
      * < GPIO Pin Async. Rising Edge Detect 0 Offset from GPIO_BASE
      */
-    public static final int GPAREN1_OFFSET = 0x000080;
+    private static final int GPAREN1_OFFSET = 0x000080;
     /**
      * < GPIO Pin Async. Rising Edge Detect 1 Offset from GPIO_BASE
      */
-    public static final int GPAFEN0_OFFSET = 0x000088;
+    private static final int GPAFEN0_OFFSET = 0x000088;
     /**
      * < GPIO Pin Async. Falling Edge Detect 0 Offset from GPIO_BASE
      */
-    public static final int GPAFEN1_OFFSET = 0x00008C;
+    private static final int GPAFEN1_OFFSET = 0x00008C;
     /**
      * < GPIO Pin Async. Falling Edge Detect 1 Offset from GPIO_BASE
      */
-    public static final int GPPUD_OFFSET = 0x000094;
+    private static final int GPPUD_OFFSET = 0x000094;
     /**
      * < GPIO Pin Pull-up/down Enable Offset from GPIO_BASE
      */
-    public static final int GPPUDCLK0_OFFSET = 0x000098;
+    private static final int GPPUDCLK0_OFFSET = 0x000098;
     /**
      * < GPIO Pin Pull-up/down Enable Clock 0 Offset from GPIO_BASE
      */
-    public static final int GPPUDCLK1_OFFSET = 0x00009C;
+    private static final int GPPUDCLK1_OFFSET = 0x00009C;
     /**
      * < GPIO Pin Pull-up/down Enable Clock 1 Offset from GPIO_BASE
      */
@@ -353,53 +353,53 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int GPFSEL_INPUT = 0x0;
+    private static final int GPFSEL_INPUT = 0x0;
     /**
      * < Sets a pin to input mode
      */
-    public static final int GPFSEL_OUTPUT = 0x1;
+    private static final int GPFSEL_OUTPUT = 0x1;
     /**
      * < Sets a pin to output mode
      */
-    public static final int GPFSEL_ALT0 = 0x4;
+    private static final int GPFSEL_ALT0 = 0x4;
     /**
      * < Sets a pin to alternative function 0
      */
-    public static final int GPFSEL_ALT1 = 0x5;
+    private static final int GPFSEL_ALT1 = 0x5;
     /**
      * < Sets a pin to alternative function 1
      */
-    public static final int GPFSEL_ALT2 = 0x6;
+    private static final int GPFSEL_ALT2 = 0x6;
     /**
      * < Sets a pin to alternative function 2
      */
-    public static final int GPFSEL_ALT3 = 0x7;
+    private static final int GPFSEL_ALT3 = 0x7;
     /**
      * < Sets a pin to alternative function 3
      */
-    public static final int GPFSEL_ALT4 = 0x3;
+    private static final int GPFSEL_ALT4 = 0x3;
     /**
      * < Sets a pin to alternative function 4
      */
-    public static final int GPFSEL_ALT5 = 0x2;
+    private static final int GPFSEL_ALT5 = 0x2;
     /**
      * < Sets a pin to alternative function 5
      */
-    public static final int GPFSEL_BITS = 0x7;
+    private static final int GPFSEL_BITS = 0x7;
     /**
      * < Three bits per GPIO in the GPFSEL register
      */
 
     /* Function select bits for GPPUD - the pullup/pulldown resistor register */
-    public static final int GPPUD_DISABLE = 0x0;
+    private static final int GPPUD_DISABLE = 0x0;
     /**
      * < Disables the resistor
      */
-    public static final int GPPUD_PULLDOWN = 0x1;
+    private static final int GPPUD_PULLDOWN = 0x1;
     /**
      * < Enables a pulldown resistor
      */
-    public static final int GPPUD_PULLUP = 0x2;
+    private static final int GPPUD_PULLUP = 0x2;
     /**
      * < Enables a pullup resistor
      */
@@ -410,87 +410,87 @@ public class HardwareMemory {
     /**
      * ***************************************************************************
      */
-    public static final int BSC0_C = 0x20205000;
+    private static final int BSC0_C = 0x20205000;
     /**
      * < BSC0 Control Register Address
      */
-    public static final int BSC0_S = 0x20205004;
+    private static final int BSC0_S = 0x20205004;
     /**
      * < BSC0 Status Register Address
      */
-    public static final int BSC0_DLEN = 0x20205008;
+    private static final int BSC0_DLEN = 0x20205008;
     /**
      * < BSC0 Data Length Register Address
      */
-    public static final int BSC0_A = 0x2020500C;
+    private static final int BSC0_A = 0x2020500C;
     /**
      * < BSC0 Slave Address Register Address
      */
-    public static final int BSC0_FIFO = 0x20205010;
+    private static final int BSC0_FIFO = 0x20205010;
     /**
      * < BSC0 Data FIFO Register Address
      */
-    public static final int BSC0_DIV = 0x20205014;
+    private static final int BSC0_DIV = 0x20205014;
     /**
      * < BSC0 Clock Divider Register Address
      */
-    public static final int BSC0_DEL = 0x20205018;
+    private static final int BSC0_DEL = 0x20205018;
     /**
      * < BSC0 Data Delay Register Address
      */
-    public static final int BSC1_C = 0x20804000;
+    private static final int BSC1_C = 0x20804000;
     /**
      * < BSC1 Control Register Address
      */
-    public static final int BSC1_S = 0x20804004;
+    private static final int BSC1_S = 0x20804004;
     /**
      * < BSC1 Status Register Address
      */
-    public static final int BSC1_DLEN = 0x20804008;
+    private static final int BSC1_DLEN = 0x20804008;
     /**
      * < BSC1 Data Length Register Address
      */
-    public static final int BSC1_A = 0x2080400C;
+    private static final int BSC1_A = 0x2080400C;
     /**
      * < BSC1 Slave Address Register Address
      */
-    public static final int BSC1_FIFO = 0x20804010;
+    private static final int BSC1_FIFO = 0x20804010;
     /**
      * < BSC1 Data FIFO Register Address
      */
-    public static final int BSC1_DIV = 0x20804014;
+    private static final int BSC1_DIV = 0x20804014;
     /**
      * < BSC1 Clock Divider Register Address
      */
-    public static final int BSC1_DEL = 0x20804018;
+    private static final int BSC1_DEL = 0x20804018;
     /**
      * < BSC1 Data Delay Register Address
      */
-    public static final int BSC2_C = 0x20805000;
+    private static final int BSC2_C = 0x20805000;
     /**
      * < BSC2 Control Register Address
      */
-    public static final int BSC2_S = 0x20805004;
+    private static final int BSC2_S = 0x20805004;
     /**
      * < BSC2 Status Register Address
      */
-    public static final int BSC2_DLEN = 0x20805008;
+    private static final int BSC2_DLEN = 0x20805008;
     /**
      * < BSC2 Data Length Register Address
      */
-    public static final int BSC2_A = 0x2080500C;
+    private static final int BSC2_A = 0x2080500C;
     /**
      * < BSC2 Slave Address Register Address
      */
-    public static final int BSC2_FIFO = 0x20805010;
+    private static final int BSC2_FIFO = 0x20805010;
     /**
      * < BSC2 Data FIFO Register Address
      */
-    public static final int BSC2_DIV = 0x20805014;
+    private static final int BSC2_DIV = 0x20805014;
     /**
      * < BSC2 Clock Divider Register Address
      */
-    public static final int BSC2_DEL = 0x20805018;
+    private static final int BSC2_DEL = 0x20805018;
     /**
      * < BSC2 Data Delay Register Address
      */
@@ -501,15 +501,15 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int BSC0_BASE = BSC0_C;
+    private static final int BSC0_BASE = BSC0_C;
     /**
      * < BSC0 Base Address
      */
-    public static final int BSC1_BASE = BSC1_C;
+    private static final int BSC1_BASE = BSC1_C;
     /**
      * < BSC1 Base Address
      */
-    public static final int BSC2_BASE = BSC2_C;
+    private static final int BSC2_BASE = BSC2_C;
     /**
      * < BSC2 Base Address
      */
@@ -521,31 +521,31 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int BSC_C_OFFSET = 0x00000000;
+    private static final int BSC_C_OFFSET = 0x00000000;
     /**
      * < BSC Control offset from BSCx_BASE
      */
-    public static final int BSC_S_OFFSET = 0x00000004;
+    private static final int BSC_S_OFFSET = 0x00000004;
     /**
      * < BSC Status offset from BSCx_BASE
      */
-    public static final int BSC_DLEN_OFFSET = 0x00000008;
+    private static final int BSC_DLEN_OFFSET = 0x00000008;
     /**
      * < BSC Data Length offset from BSCx_BASE
      */
-    public static final int BSC_A_OFFSET = 0x0000000C;
+    private static final int BSC_A_OFFSET = 0x0000000C;
     /**
      * < BSC Slave Address offset from BSCx_BASE
      */
-    public static final int BSC_FIFO_OFFSET = 0x00000010;
+    private static final int BSC_FIFO_OFFSET = 0x00000010;
     /**
      * < BSC Data FIFO offset from BSCx_BASE
      */
-    public static final int BSC_DIV_OFFSET = 0x00000014;
+    private static final int BSC_DIV_OFFSET = 0x00000014;
     /**
      * < BSC Clock Divider offset from BSCx_BASE
      */
-    public static final int BSC_DEL_OFFSET = 0x00000018;
+    private static final int BSC_DEL_OFFSET = 0x00000018;
     /**
      * < BSC Data Delay offset from BSCx_BASE
      */
@@ -556,31 +556,31 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int BSC_I2CEN = 0x8000;
+    private static final int BSC_I2CEN = 0x8000;
     /**
      * < BSC Control: I2C Enable Bit
      */
-    public static final int BSC_INTR = 0x0400;
+    private static final int BSC_INTR = 0x0400;
     /**
      * < BSC Control: Interrupt on RX bit
      */
-    public static final int BSC_INTT = 0x0200;
+    private static final int BSC_INTT = 0x0200;
     /**
      * < BSC Control: Interrupt on TX bit
      */
-    public static final int BSC_INTD = 0x0100;
+    private static final int BSC_INTD = 0x0100;
     /**
      * < BSC Control: Interrupt on DONE bit
      */
-    public static final int BSC_ST = 0x0080;
+    private static final int BSC_ST = 0x0080;
     /**
      * < BSC Control: Start transfer bit
      */
-    public static final int BSC_CLEAR = 0x0010;
+    private static final int BSC_CLEAR = 0x0010;
     /**
      * < BSC Control: Clear FIFO bit
      */
-    public static final int BSC_READ = 0x0001;
+    private static final int BSC_READ = 0x0001;
     /**
      * < BSC Control: Read Packet Transfer bit
      */
@@ -591,77 +591,77 @@ public class HardwareMemory {
     /**
      * *******************************************************************************
      */
-    public static final int BSC_CLKT = 0x200;
+    private static final int BSC_CLKT = 0x200;
     /**
      * < BSC Status: Clock Stretch Timeout bit
      */
-    public static final int BSC_ERR = 0x100;
+    private static final int BSC_ERR = 0x100;
     /**
      * < BSC Status: Ack Error bit
      */
-    public static final int BSC_RXF = 0x080;
+    private static final int BSC_RXF = 0x080;
     /**
      * < BSC Status: FIFO Full bit
      */
-    public static final int BSC_TXE = 0x040;
+    private static final int BSC_TXE = 0x040;
     /**
      * < BSC Status: FIFO Empty bit
      */
-    public static final int BSC_RXD = 0x020;
+    private static final int BSC_RXD = 0x020;
     /**
      * < BSC Status: FIFO Contains Data
      */
-    public static final int BSC_TXD = 0x010;
+    private static final int BSC_TXD = 0x010;
     /**
      * < BSC Status: FIFO Can Accept Data bit
      */
-    public static final int BSC_RXR = 0x008;
+    private static final int BSC_RXR = 0x008;
     /**
      * < BSC Status: FIFO Needs Reading bit
      */
-    public static final int BSC_TXW = 0x004;
+    private static final int BSC_TXW = 0x004;
     /**
      * < BSC Status: FIFO Needs Writing bit
      */
-    public static final int BSC_DONE = 0x002;
+    private static final int BSC_DONE = 0x002;
     /**
      * < BSC Status: Transfer Done
      */
-    public static final int BSC_TA = 0x001;
+    private static final int BSC_TA = 0x001;
     /**
      * < BSC Status: Transfer Active
      */
-    public static final int BSC_FIFO_SIZE = 16;
+    private static final int BSC_FIFO_SIZE = 16;
     /**
      * @brief The size the I2C mapping is required to be.
      */
-    public static final int I2C_MAP_SIZE = BSC_DEL_OFFSET;
+    private static final int I2C_MAP_SIZE = BSC_DEL_OFFSET;
     /**
      * @brief Default I2C clock frequency (Hertz)
      */
-    public static final int I2C_DEFAULT_FREQ_HZ = 100000;
+    private static final int I2C_DEFAULT_FREQ_HZ = 100000;
     /**
      * @brief nano seconds in a second
      */
-    public static final int MSEC_IN_SEC = 1000;
+    private static final int MSEC_IN_SEC = 1000;
     /**
      * @brief Clock pulses per I2C byte - 8 bits + ACK
      */
-    public static final int CLOCKS_PER_BYTE = 9;
+    private static final int CLOCKS_PER_BYTE = 9;
     /**
      * The size the GPIO mapping is required to be. GPPUDCLK1_OFFSET is the last
      * * register offset of interest.
      */
-    public static final int GPIO_MAP_SIZE = (GPPUDCLK1_OFFSET);
+    private static final int GPIO_MAP_SIZE = (GPPUDCLK1_OFFSET);
     /**
      * Number of GPIO pins which are available on the Raspberry Pi.
      */
-    public static final int NUMBER_GPIO = 17;
+    private static final int NUMBER_GPIO = 17;
     /**
      * Delay for changing pullup/pulldown resistors. It should be at least 150 *
      * cycles which is 0.6 uS (1 / 250 MHz * 150). (250 Mhz is the core clock)
      */
-    public static final int RESISTOR_SLEEP_US = 1;
+    private static final int RESISTOR_SLEEP_US = 1;
 
     /**
      * @brief BSC_C register
@@ -750,21 +750,21 @@ public class HardwareMemory {
     /**
      * @brief GPSET_0 register
      */
-    public static void putGPIO_GPSET0(int val) {
+    private static void putGPIO_GPSET0(int val) {
         gpioMem.put(GPSET0_OFFSET / 4, val);
     }
 
     /**
      * @brief GPIO_GPCLR0 register
      */
-    public static void putGPIO_GPCLR0(int val) {
+    private static void putGPIO_GPCLR0(int val) {
         gpioMem.put(GPCLR0_OFFSET / 4, val);
     }
 
     /**
      * @brief GPIO_GPLEV0 register
      */
-    public static int getGPIO_GPLEV0() {
+    private static int getGPIO_GPLEV0() {
         return gpioMem.get(GPLEV0_OFFSET / 4);
     }
 
@@ -821,11 +821,9 @@ public class HardwareMemory {
             pcbVersion = version;
 
             if (version != 1 && version != 2) {
-                System.out.println("Version is " + version);
                 throw (new UnsatisfiedLinkError("no version number"));
             }
 
-            System.out.println("!!!!!!!!!!!!!!!! Loaded Pi PCB Version " + version);
 
             ByteBuffer memgpio = setupIO();
             memgpio.order(ByteOrder.LITTLE_ENDIAN);
@@ -835,7 +833,8 @@ public class HardwareMemory {
             memi2c.order(ByteOrder.LITTLE_ENDIAN);
             i2cMem = memi2c.asIntBuffer();
 
-            downUser("pi");
+//            downUser("pi");
+//            downUser("nobody");
         } catch (UnsatisfiedLinkError e) {
             System.out.println("Loading arm library did not work, are you on the pi");
             gpioMem = IntBuffer.allocate(1000);
@@ -972,7 +971,7 @@ public class HardwareMemory {
         putI2C_C(val);
 
         /* Main transmit Loop - While Not Done */
-        while ((getI2C_S() & BSC_DONE) != 0) {
+        while ((getI2C_S() & BSC_DONE) == 0) {
             while (((getI2C_S() & BSC_TXD) != 0) && (dataRemaining > 0)) {
                 putI2C_FIFO(data[dataIndex]);
                 dataIndex++;
@@ -989,7 +988,7 @@ public class HardwareMemory {
                 sleep = getI2C_DLEN() * i2cByteTxTime_ms;
             }
             try {
-                Thread.sleep(val);
+                Thread.sleep(sleep);
             } catch (InterruptedException ex) {
                 Logger.getLogger(HardwareMemory.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1116,6 +1115,9 @@ public class HardwareMemory {
         putI2C_DIV(250000000 / frequency);
         i2cByteTxTime_ms = (int) (1.0 / ((float) frequency / MSEC_IN_SEC)
                 * CLOCKS_PER_BYTE);
+        if (i2cByteTxTime_ms == 0) {
+            i2cByteTxTime_ms = 1;
+        }
     }
 
     public static void loadDriver() {
