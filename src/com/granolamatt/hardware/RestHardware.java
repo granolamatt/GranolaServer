@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  *
@@ -37,7 +36,7 @@ public class RestHardware {
     @GET
     @Path("/turnon")
     @Produces(MediaType.TEXT_HTML)
-    public Response turnOnPin(@QueryParam("pin") int pin) {
+    public String turnOnPin(@QueryParam("pin") int pin) {
         BasicDocument doc = new BasicDocument();
         if (pin != 0 && pin < 32) {
             if (!pinDirection.containsKey(pin)) {
@@ -56,13 +55,13 @@ public class RestHardware {
             doc.addContent("Pin " + in + " is " + pinDirection.get(in) + " and is " + pinStatus.get(in) + "<br>");
         }
 
-        return Response.status(Response.Status.OK).entity(doc.toString()).build();
+        return doc.toString();
     }
 
     @GET
     @Path("/turnoff")
     @Produces(MediaType.TEXT_HTML)
-    public Response turnOffPin(@QueryParam("pin") int pin) {
+    public String turnOffPin(@QueryParam("pin") int pin) {
         BasicDocument doc = new BasicDocument();
         if (pin != 0 && pin < 32) {
             if (!pinDirection.containsKey(pin)) {
@@ -83,6 +82,6 @@ public class RestHardware {
             doc.addContent("Pin " + in + " is " + pinDirection.get(in) + " and is " + pinStatus.get(in) + "<br>");
         }
 
-        return Response.status(Response.Status.OK).entity(doc.toString()).build();
+        return doc.toString();
     }
 }

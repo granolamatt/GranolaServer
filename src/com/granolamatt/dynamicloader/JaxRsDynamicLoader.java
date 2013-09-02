@@ -2,9 +2,6 @@ package com.granolamatt.dynamicloader;
 
 import com.granolamatt.device.DeviceModule;
 import com.granolamatt.logger.LoggerOut;
-import com.sun.jersey.api.model.AbstractResource;
-import com.sun.jersey.api.model.AbstractSubResourceMethod;
-import com.sun.jersey.server.impl.modelapi.annotation.IntrospectionModeller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
@@ -27,20 +24,7 @@ public class JaxRsDynamicLoader extends Application {
     private final List<DeviceModule> deviceModules = new LinkedList<>();
     
     public boolean isJAX(Class<?> restClass) {
-        AbstractResource resource = IntrospectionModeller.createResource(restClass);
-        if (resource.getPath() != null) {
-            LoggerOut.println("Loading path " + resource.getPath().getValue());
-            String uriPrefix = resource.getPath().getValue();
-            List<AbstractSubResourceMethod> resources = resource.getSubResourceMethods();
-            if (resources != null) {
-                for (AbstractSubResourceMethod srm : resources) {
-                    String uri = uriPrefix + "/" + srm.getPath().getValue();
-                    LoggerOut.println(srm.getHttpMethod() + " at the path " + uri + " return " + srm.getReturnType().getName());
-                }
-            }
-            return true;
-        }
-        return false;
+        return restClass.isAnnotationPresent(javax.ws.rs.Path.class);
     }
     
     private void analyzeClass(Class<?> myClass) {

@@ -3,59 +3,67 @@ package com.granolamatt.root;
 import com.granolamatt.hardware.HardwareMemory;
 import com.granolamatt.htmlhelpers.BasicDocument;
 import com.granolamatt.logger.LoggerOut;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.ws.rs.core.UriBuilder;
-
-import com.sun.net.httpserver.HttpServer;
 import java.io.File;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
+import org.simpleframework.http.core.Container;
+import org.simpleframework.http.core.ContainerServer;
+import org.simpleframework.transport.Server;
+import org.simpleframework.transport.connect.Connection;
+import org.simpleframework.transport.connect.SocketConnection;
 
 public class App {
 
     private static String bindAddress = "localhost";
-    private static HttpServer server;
+    private static Server server;
+    private static final int port = 7023;
     private final static List<ActiveModule> moduleList = new LinkedList<>();
+
+    public static class RestContainer implements Container {
+
+        private final Executor executor;
+
+        public RestContainer(int size) {
+            this.executor = Executors.newFixedThreadPool(size);
+        }
+
+        @Override
+        public void handle(Request request, Response response) {
+            Task task = new Task(request, response, moduleList);
+            executor.execute(task);
+        }
+    }
 
     static void startServer() throws IOException {
 
-//        HttpServer server = HttpServer.create(new InetSocketAddress(getBaseURI().getPort()), 0);
-        server = HttpServerFactory.create(getBaseURI());
+        Container container = new RestContainer(10);
+        server = new ContainerServer(container);
+        Connection connection = new SocketConnection(server);
+        SocketAddress address = new InetSocketAddress(port);
 
-//        JaxLoggingApplication loggerApp = new JaxLoggingApplication();
-//        HttpHandler loggingHandler = ContainerFactory.createContainer(HttpHandler.class, loggerApp.getClasses());
-//        HttpHandler loggingHandler = RuntimeDelegate.getInstance().createEndpoint(loggerApp, HttpHandler.class);
-//        JaxRootApplication rootApp = new JaxRootApplication();
-//        HttpHandler rootHandler = RuntimeDelegate.getInstance().createEndpoint(rootApp, HttpHandler.class);
-//        HttpHandler rootHandler = ContainerFactory.createContainer(HttpHandler.class, rootApp.getClasses());
+        connection.connect(address);
 
-
-        server.createContext(getBaseURI().getPath());
-        server.start();
-
-//        File f = new File("/mnt/vg_matt-lvol0/NetBeansProjects/DynamicLoaderTest/dist/DynamicLoaderTest.jar");
-//        JaxRsDynamicLoader dynamicLoader = new JaxRsDynamicLoader(f);
-//        HttpHandler dynamicHandler = RuntimeDelegate.getInstance().createEndpoint(dynamicLoader, HttpHandler.class);
-//        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader.getClasses());
-
-//        server.createContext(getBaseURI().getPath() + rootApp.getContext(), rootHandler);
-//        System.out.println("Adding dynamic context " + dynamicLoader.getContext());
-//        server.createContext(getBaseURI().getPath() + dynamicLoader.getContext(), dynamicHandler);
-//        server.createContext(getBaseURI().getPath() + loggerApp.getContext(), loggingHandler);
-        ActiveModule root = new ActiveModule(server);
+        ActiveModule root = new ActiveModule();
         synchronized (moduleList) {
             moduleList.add(root);
         }
-        
+
         loadFromDir();
 
     }
-    
+
     public static void loadFromDir() {
         File uploadDir = new File("/opt/granola");
         if (uploadDir.exists() && uploadDir.isDirectory()) {
@@ -66,11 +74,11 @@ public class App {
                 }
             }
         }
-        
+
     }
 
     public static void addModule(File file) {
-        ActiveModule am = new ActiveModule(server, file);
+        ActiveModule am = new ActiveModule(file);
         synchronized (moduleList) {
             moduleList.add(am);
         }
@@ -89,8 +97,8 @@ public class App {
                 moduleList.remove(module);
             }
         }
-        server.removeContext("/" + moduleContext);
-        File jarFile = new File("/opt/granola/" +  moduleContext + ".jar");
+//        server.removeContext("/" + moduleContext);
+        File jarFile = new File("/opt/granola/" + moduleContext + ".jar");
         if (jarFile.exists()) {
             jarFile.delete();
         }
@@ -124,7 +132,6 @@ public class App {
 //            }
 //        }
 //    }
-    
 //    private static void testI2C() {
 //        { 
 //    int rxBuffer[] = new int[8];
@@ -150,12 +157,11 @@ public class App {
 //} 
 //
 //    }
-
     public static void main(String[] args) throws IOException {
         HardwareMemory.loadDriver();
 //        testI2C();
-        
-        
+
+
         if (args.length > 0) {
             bindAddress = args[0];
         }
@@ -188,8 +194,6 @@ public class App {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        server.stop(0);
     }
 
     public static void getModulesInfo(BasicDocument doc) {
@@ -200,21 +204,14 @@ public class App {
         }
     }
 
-    private static int getPort(int defaultPort) {
-        final String port = System.getProperty("jersey.config.test.container.port");
-        if (null != port) {
-            try {
-                return Integer.parseInt(port);
-            } catch (NumberFormatException e) {
-                System.out.println("Value of jersey.config.test.container.port property"
-                        + " is not a valid positive integer [" + port + "]."
-                        + " Reverting to default [" + defaultPort + "].");
-            }
-        }
-        return defaultPort;
-    }
-
     public static URI getBaseURI() {
-        return UriBuilder.fromUri("http://" + bindAddress + "/").port(getPort(7023)).build();
+        URI uri = null;
+        try {
+            uri = new URI("http://" + bindAddress + "/:" + port);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return uri;
+//        return UriBuilder.fromUri("http://" + bindAddress + "/").port(getPort(7023)).build();
     }
 }
