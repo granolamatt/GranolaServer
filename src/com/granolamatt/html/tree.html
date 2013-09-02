@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+	<link rel="stylesheet" href="../_static/js/dojo/../dijit/themes/claro/claro.css">
+	
+	<script>dojoConfig = {parseOnLoad: true}</script>
+	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
+	
+	<script>
+require([
+    "dojo/_base/declare", "dojo/_base/window", "dojo/store/Memory",
+    "dijit/tree/ObjectStoreModel", "dijit/Tree",
+    "dojo/domReady!"
+], function(declare, win, Memory, ObjectStoreModel, Tree){
+
+    // Create test store, adding getChildren() method needed by ObjectStoreModel
+    var store = new Memory({
+        data: [
+            { id: 0, label: "root"},
+               {id: 1, label: "<i>hello</i>", parent: 0},
+               {id: 2, label: "<b>world</b>", parent: 0},
+        ],
+        getChildren: function(object){
+            return this.query({parent: object.id});
+        }
+    });
+
+    // Create the model
+    var model = new ObjectStoreModel({
+        store: store,
+        query: {id: 0},
+        labelAttr: "label"
+    });
+
+    // Custom TreeNode class (based on dijit.TreeNode) that allows rich text labels
+    var MyTreeNode = declare(Tree._TreeNode, {
+        _setLabelAttr: {node: "labelNode", type: "innerHTML"}
+    });
+
+    // Create the Tree.
+    var tree = new Tree({
+        model: model,
+        _createTreeNode: function(args){
+           return new MyTreeNode(args);
+        }
+    });
+    tree.placeAt(win.body());
+    tree.startup();
+});
+	</script>
+</head>
+<body class="claro">
+    
+</body>
+</html>
