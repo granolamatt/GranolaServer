@@ -9,6 +9,10 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="GranolaServer" default="default" basedir=".">
     <description>Builds, tests, and runs the project GranolaServer.</description>
+    <target name="-pre-jar">
+       <echo level="info">Now preparing all jni code for project, send to pi to compile:</echo>
+       <exec executable="doMake.sh" resolveexecutable="true"></exec>
+    </target>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
