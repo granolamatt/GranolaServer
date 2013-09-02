@@ -4,21 +4,25 @@
  */
 package com.granolamatt.root;
 
+import com.granolamatt.device.DeviceModule;
 import com.granolamatt.dynamicloader.JaxRsDynamicLoader;
 import com.granolamatt.hardware.RestHardware;
 import com.granolamatt.logger.LoggerOut;
 import com.granolamatt.logger.RestLogger;
 import static com.granolamatt.root.App.getBaseURI;
-import com.sun.jersey.api.container.ContainerFactory;
-import com.sun.jersey.api.model.AbstractResource;
-import com.sun.jersey.api.model.AbstractResourceMethod;
-import com.sun.jersey.api.model.AbstractSubResourceMethod;
-import com.sun.jersey.api.model.Parameter;
-import com.sun.jersey.server.impl.modelapi.annotation.IntrospectionModeller;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.io.File;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.Path;
+import org.glassfish.jersey.server.ContainerFactory;
+import org.glassfish.jersey.server.model.Parameter;
 
 /**
  *
@@ -30,6 +34,7 @@ public class ActiveModule {
     private JaxRsDynamicLoader dynamicLoader = null;
     private HttpServer server = null;
     private final StringBuilder moduleInfo = new StringBuilder();
+    private final boolean debug = true;
 
     public ActiveModule(HttpServer server) {
         this.server = server;
@@ -59,7 +64,7 @@ public class ActiveModule {
         String jarName = file.getName();
         context = jarName.replaceAll(".jar", "").replaceAll(" ", "");
         dynamicLoader = new JaxRsDynamicLoader(file);
-        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader.getClasses());
+        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader);
         LoggerOut.println("Adding dynamic context " + context);
         server.createContext(getBaseURI().getPath() + context, dynamicHandler);
 
@@ -86,7 +91,7 @@ public class ActiveModule {
 
     private void addRemove() {
         moduleInfo.append("<p>");
-        
+
         moduleInfo.append("<a href=\"/");
 //        moduleInfo.append(App.getBaseURI()).deleteCharAt(moduleInfo.length() - 1);
         moduleInfo.append("remove/");
@@ -128,7 +133,7 @@ public class ActiveModule {
         return moduleInfo;
     }
 
-    private void addResource(String httpMethod, String path, List<Parameter> parms) {
+    private void addResource(String httpMethod, String path, List<String> parms, String produces) {
 //Each table starts with a table tag. 
 //Each table row starts with a tr tag.
 //Each table data starts with a td tag.
@@ -136,14 +141,14 @@ public class ActiveModule {
         moduleInfo.append("<td>").append(httpMethod).append("</td>\n");
         moduleInfo.append("<td>").append(getHyperLink(path, path)).append("</td>\n");
         moduleInfo.append("<td>");
-        for (Parameter parm : parms) {
-            moduleInfo.append(parm.getSourceName()).append("<br>");
+        if (parms != null) {
+            for (String parm : parms) {
+                moduleInfo.append(parm).append("<br>");
+            }
         }
         moduleInfo.append("</td>\n");
         moduleInfo.append("<td>");
-        for (Parameter parm : parms) {
-            moduleInfo.append(parm.getParameterClass().getSimpleName()).append("<br>");
-        }
+        moduleInfo.append(produces).append("<br>");
         moduleInfo.append("</td>\n");
         moduleInfo.append("</tr>\n");
     }
@@ -153,8 +158,18 @@ public class ActiveModule {
         moduleInfo.append("<td>").append("Method").append("</td>\n");
         moduleInfo.append("<td>").append("URI").append("</td>\n");
         moduleInfo.append("<td>").append("Query Param").append("</td>\n");
-        moduleInfo.append("<td>").append("Java Type").append("</td>\n");
+        moduleInfo.append("<td>").append("MediaType").append("</td>\n");
         moduleInfo.append("</tr>\n");
+    }
+
+    private String getValue(Annotation an) {
+        String parse = an.toString();
+        String ret = "";
+        String[] sub = parse.split("value=");
+        if (sub != null && sub.length > 1) {
+            ret = sub[1].replace(")", "");
+        }
+        return ret;
     }
 
     private void loadJAX(Class<?> restClass) {
@@ -163,34 +178,82 @@ public class ActiveModule {
         moduleInfo.append("<table border=\"1\">\n");
         addTableHeader();
 
-        AbstractResource resource = IntrospectionModeller.createResource(restClass);
-        if (resource.getPath() != null) {
-            LoggerOut.println("Loading path " + resource.getPath().getValue());
-            String uriPrefix = resource.getPath().getValue();
-            List<AbstractResourceMethod> resourceMethod = resource.getResourceMethods();
-            if (resourceMethod != null) {
-                for (AbstractResourceMethod srm : resourceMethod) {
-                    List<Parameter> parm = srm.getParameters();
-                    for (Parameter p : parm) {
-                        LoggerOut.println("Parameter is " + p.getParameterClass().getName() + " source name " + p.getSourceName());
-                    }
-                    addResource(srm.getHttpMethod(), resource.getPath().getValue(), parm);
-                    LoggerOut.println(srm.getHttpMethod() + " at the path " + resource.getPath().getValue() + " return " + srm.getReturnType().getName());
-                }
-            }
-            List<AbstractSubResourceMethod> resources = resource.getSubResourceMethods();
-            if (resources != null) {
-                for (AbstractSubResourceMethod srm : resources) {
-                    String uri = uriPrefix + srm.getPath().getValue();
-                    List<Parameter> parm = srm.getParameters();
-                    for (Parameter p : parm) {
-                        LoggerOut.println("Parameter is " + p.getParameterClass().getName() + " source name " + p.getSourceName());
-                    }
-                    addResource(srm.getHttpMethod(), uri, parm);
-                    LoggerOut.println(srm.getHttpMethod() + " at the path " + uri + " return " + srm.getReturnType().getName());
-                }
-            }
+//        System.out.println("restClass is " + restClass + " jax " + restClass.isAnnotationPresent(javax.ws.rs.Path.class));
+//        if (restClass.isAnnotationPresent(javax.ws.rs.Path.class)) {
+//            Path path = restClass.getAnnotation(javax.ws.rs.Path.class);
+//            LoggerOut.println("Loading path " + path.value());
+//        }
+
+        Method[] m = restClass.getDeclaredMethods();
+        Annotation modpath = restClass.getAnnotation(javax.ws.rs.Path.class);
+        String basepath = getValue(modpath);
+        if (basepath.endsWith("/")) {
+            basepath = basepath.substring(0, basepath.length() - 1);
         }
+        for (Method meth : m) {
+            String method = null;
+            String path = basepath;
+            String produces = "";
+            Annotation[] ann = meth.getAnnotations();
+            Annotation methpath = meth.getAnnotation(javax.ws.rs.Path.class);
+            if (methpath != null) {
+                path += getValue(methpath);
+            }
+            Annotation prod = meth.getAnnotation(javax.ws.rs.Produces.class);
+            if (prod != null) {
+                produces = getValue(prod);
+            }
+            for (Annotation cl : ann) {
+                String parse = cl.toString();
+                if (parse.startsWith("@javax.ws.rs.GET()")) {
+                    method = "GET";
+                } else if (parse.startsWith("@javax.ws.rs.POST()")) {
+                    method = "POST";
+                } else if (parse.startsWith("@javax.ws.rs.DELETE()")) {
+                    method = "DELETE";
+                } else if (parse.startsWith("@javax.ws.rs.PUT()")) {
+                    method = "PUT";
+                } 
+            }
+            if (method == null) {
+                continue;
+            }
+//            for (Annotation cl : ann) {
+//                System.out.println("Name is " + cl.toString());
+//            }
+
+//            System.out.println("For method " + meth + " d ");
+            Annotation[][] mymethods = meth.getParameterAnnotations();
+            ArrayList<String> list = new ArrayList<>();
+            for (Annotation[] annn : mymethods) {
+                for (Annotation an : annn) {
+                    String parse = an.toString();
+                    if (parse.startsWith("@javax.ws.rs.QueryParam")) {
+                        String[] sub = parse.split("value=");
+                        if (sub != null && sub.length > 1) {
+                            String q = sub[1].replace(")", "");
+                            list.add(q);
+                        }
+
+                    } else if (parse.startsWith("@javax.ws.rs.PathParam")) {
+                        String[] sub = parse.split("value=");
+                        if (sub != null && sub.length > 1) {
+                            String pp = sub[1].replace(")", "");
+                            System.out.println("Path Param " + pp);
+                        }
+
+                    }
+                }
+            }
+
+//            for (Type tt : meth.getGenericParameterTypes()) {
+//                System.out.println("Type is " + tt);
+//            }
+
+            addResource(method, path, list, produces);
+
+        }
+
         moduleInfo.append("</table>").append("<br>\n");
     }
 
@@ -203,16 +266,4 @@ public class ActiveModule {
     public String getContext() {
         return context;
     }
-//    private void loadRootPath() {
-//        // We need to scan RestRoot and RestLogger
-//
-//        isJAX(RestRoot.class);
-//        isJAX(RestLogger.class);
-//
-////        String classPath = System.getProperty("java.class.path");
-////        String[] paths = classPath.split(File.pathSeparator);
-////        for (String jname : paths) {
-////            System.out.println("Jars are " + jname);
-////        }
-//    }
 }

@@ -1,9 +1,10 @@
 package com.granolamatt.root;
 
+import com.granolamatt.dynamicloader.DefaultApplication;
 import com.granolamatt.hardware.HardwareMemory;
 import com.granolamatt.htmlhelpers.BasicDocument;
 import com.granolamatt.logger.LoggerOut;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
+import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.net.URI;
 
@@ -11,10 +12,15 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.sun.net.httpserver.HttpServer;
 import java.io.File;
+import java.net.InetSocketAddress;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.RuntimeDelegate;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+
 
 public class App {
 
@@ -23,9 +29,10 @@ public class App {
     private final static List<ActiveModule> moduleList = new LinkedList<>();
 
     static void startServer() throws IOException {
+        
 
-//        HttpServer server = HttpServer.create(new InetSocketAddress(getBaseURI().getPort()), 0);
-        server = HttpServerFactory.create(getBaseURI());
+        server = HttpServer.create(new InetSocketAddress(getBaseURI().getPort()), 0);
+//        server = HttpServerFactory.create(getBaseURI());
 
 //        JaxLoggingApplication loggerApp = new JaxLoggingApplication();
 //        HttpHandler loggingHandler = ContainerFactory.createContainer(HttpHandler.class, loggerApp.getClasses());
@@ -33,9 +40,13 @@ public class App {
 //        JaxRootApplication rootApp = new JaxRootApplication();
 //        HttpHandler rootHandler = RuntimeDelegate.getInstance().createEndpoint(rootApp, HttpHandler.class);
 //        HttpHandler rootHandler = ContainerFactory.createContainer(HttpHandler.class, rootApp.getClasses());
+        // create a handler wrapping the JAX-RS application
+        Application def = new DefaultApplication().packages("org.glassfish.jersey.examples.multipart")
+    .register(MultiPartFeature.class);
+        
+        HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(def , HttpHandler.class);
 
-
-        server.createContext(getBaseURI().getPath());
+        server.createContext(getBaseURI().getPath(), handler);
         server.start();
 
 //        File f = new File("/mnt/vg_matt-lvol0/NetBeansProjects/DynamicLoaderTest/dist/DynamicLoaderTest.jar");
