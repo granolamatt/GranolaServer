@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.simpleframework.http.Part;
 import org.simpleframework.http.Path;
 import org.simpleframework.http.Protocol;
 import org.simpleframework.http.Query;
@@ -28,7 +29,8 @@ public class SearchMethod {
     private final Method myMethod;
     private final String context;
     private String httpMethod;
-    private String produces;
+    private String produces = null;
+    private String consumes = null;
     private String path;
     private final HashMap<String, Integer> pathParams = new HashMap<>();
 
@@ -62,6 +64,13 @@ public class SearchMethod {
             produces = getValue(prod);
             if (produces.length() > 2) {
                 produces = produces.substring(1, produces.length() - 1);
+            }
+        }
+        Annotation cons = myMethod.getAnnotation(javax.ws.rs.Consumes.class);
+        if (cons != null) {
+            consumes = getValue(cons);
+            if (consumes.length() > 2) {
+                consumes = consumes.substring(1, consumes.length() - 1);
             }
         }
         for (Annotation cl : ann) {
@@ -167,6 +176,7 @@ public class SearchMethod {
             for (Annotation[] annn : mymethods) {
                 for (Annotation an : annn) {
                     String parse = an.toString();
+
                     if (parse.startsWith("@javax.ws.rs.QueryParam")) {
                         String[] sub = parse.split("value=");
                         if (sub != null && sub.length > 1) {
@@ -211,10 +221,30 @@ public class SearchMethod {
                                 args[idx] = paramTypes[idx].cast(pathValue);
                             }
                         }
+                    } else if (parse.startsWith("@javax.ws.rs.FormParam")) {
+                        String[] sub = parse.split("value=");
+                        if (sub != null && sub.length > 1) {
+                            String q = sub[1].replace(")", "");
+                            //queryParams.put(q, idx);
+                            System.out.println("Query param " + q + " type " + paramTypes[idx]);
+                            // XXX Finish querys
+                            if (consumes != null) {
+                                System.out.println("It consumes " + consumes);
+                                Part part = request.getPart(q);
+                                if (part != null) {
+                                    if (paramTypes[idx].equals(java.io.InputStream.class)) {
+                                        args[idx] = part.getInputStream();
+                                    } else if (paramTypes[idx].equals(java.lang.String.class)) {
+                                        args[idx] = part.getFileName();
+                                    }
+                                }
+                            }
+                        }
                     }
                     idx++;
                 }
             }
+
 
             Object out = myMethod.invoke(myClass.newInstance(), args);
 
