@@ -26,12 +26,13 @@ public class LoggerOut {
     private static boolean printURISet = false;
     private static URI printURI = App.getBaseURI();
 //    private static URI printURI = UriBuilder.fromUri("http://192.168.0.29/").port(8080).build();
-    private static ExecutorService threadPool = Executors.newSingleThreadExecutor();
+    private static final ExecutorService threadPool = Executors.newSingleThreadExecutor();
 
     public static void println(final String line) {
         Runnable printTask = new Runnable() {
             @Override
             public void run() {
+                RestLogger.fireLog(line + "\n");
                 if (!printURISet) {
                     synchronized (outString) {
                         outString.append(line).append("<br>");
@@ -59,6 +60,7 @@ public class LoggerOut {
         Runnable printTask = new Runnable() {
             @Override
             public void run() {
+                RestLogger.fireLog(line);
                 if (!printURISet) {
                     synchronized (outString) {
                         outString.append(line);
@@ -111,6 +113,7 @@ public class LoggerOut {
                 outString.delete(0, outString.length() - totalLength);
             }
             readLength = outString.length();
+            
 
             return ret;
         }

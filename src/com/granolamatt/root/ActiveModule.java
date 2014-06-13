@@ -8,15 +8,17 @@ import com.granolamatt.dynamicloader.JaxRsDynamicLoader;
 import com.granolamatt.hardware.RestHardware;
 import com.granolamatt.logger.LoggerOut;
 import com.granolamatt.logger.RestLogger;
-import com.granolamatt.root.datatype.SearchEvent;
+import static com.granolamatt.root.App.getBaseURI;
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import org.simpleframework.http.Request;
-import org.simpleframework.http.Response;
+import java.util.Map;
+import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.ServerConfiguration;
+import org.glassfish.jersey.server.ContainerFactory;
 
 /**
  *
@@ -26,11 +28,12 @@ public class ActiveModule {
 
     private final String context;
     private JaxRsDynamicLoader dynamicLoader = null;
+    private HttpServer server = null;
     private final StringBuilder moduleInfo = new StringBuilder();
     private final boolean debug = true;
-    private final SearchEvent search = new SearchEvent();
 
-    public ActiveModule() {
+    public ActiveModule(HttpServer server) {
+        this.server = server;
         this.context = "";
 
         synchronized (moduleInfo) {
@@ -52,20 +55,30 @@ public class ActiveModule {
 
     }
 
-    public ActiveModule(File file) {
+    public ActiveModule(HttpServer httpServer, File file) {
+        this.server = httpServer;
         String jarName = file.getName();
         context = jarName.replaceAll(".jar", "").replaceAll(" ", "");
-//        try {
-//            mcontext = URLEncoder.encode(mcontext, "UTF-8");
-//        } catch (UnsupportedEncodingException ex) {
-//            mcontext = Double.toString(Math.random());
-//        }
-//        context = mcontext;
-        System.out.println("context is " + context);
         dynamicLoader = new JaxRsDynamicLoader(file);
-//        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader);
+        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader);
         LoggerOut.println("Adding dynamic context " + context);
-//        server.createContext(getBaseURI().getPath() + context, dynamicHandler);
+        // Map the path to the processor.
+        final ServerConfiguration config = server.getServerConfiguration();
+        Map<HttpHandler, String[]> handlers = config.getHttpHandlers();
+        HttpHandler old = null;
+        for (HttpHandler hand : handlers.keySet()) {
+            String[] oldPath = handlers.get(hand);
+            if (oldPath[0].equals(getBaseURI().getPath() + context)) {
+                old = hand;
+                break;
+            }
+        }
+        config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
+        if (old != null) {
+            old.destroy();
+            config.removeHttpHandler(old);
+            config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
+        }
 
         synchronized (moduleInfo) {
             moduleInfo.append("<p>");
@@ -136,9 +149,6 @@ public class ActiveModule {
 //Each table starts with a table tag. 
 //Each table row starts with a tr tag.
 //Each table data starts with a td tag.
-
-
-
         moduleInfo.append("<tr>\n");
         moduleInfo.append("<td>").append(httpMethod).append("</td>\n");
         moduleInfo.append("<td>").append(getHyperLink(path, path)).append("</td>\n");
@@ -176,6 +186,10 @@ public class ActiveModule {
 
     private void loadJAX(Class<?> restClass) {
 
+        if (!restClass.isAnnotationPresent(javax.ws.rs.Path.class)) {
+            return;
+        }
+        
         moduleInfo.append("Class ").append(restClass.getSimpleName()).append("<br>\n");
         moduleInfo.append("<table border=\"1\">\n");
         addTableHeader();
@@ -185,7 +199,6 @@ public class ActiveModule {
 //            Path path = restClass.getAnnotation(javax.ws.rs.Path.class);
 //            LoggerOut.println("Loading path " + path.value());
 //        }
-
         Method[] m = restClass.getDeclaredMethods();
         Annotation modpath = restClass.getAnnotation(javax.ws.rs.Path.class);
         String basepath = getValue(modpath);
@@ -193,7 +206,6 @@ public class ActiveModule {
             basepath = basepath.substring(0, basepath.length() - 1);
         }
         for (Method meth : m) {
-            search.addMethod(restClass, meth, context);
             String method = null;
             String path = basepath;
             String produces = "";
@@ -221,6 +233,11 @@ public class ActiveModule {
             if (method == null) {
                 continue;
             }
+//            for (Annotation cl : ann) {
+//                System.out.println("Name is " + cl.toString());
+//            }
+
+//            System.out.println("For method " + meth + " d ");
             Annotation[][] mymethods = meth.getParameterAnnotations();
             ArrayList<String> list = new ArrayList<>();
             for (Annotation[] annn : mymethods) {
@@ -232,6 +249,7 @@ public class ActiveModule {
                             String q = sub[1].replace(")", "");
                             list.add(q);
                         }
+
                     } else if (parse.startsWith("@javax.ws.rs.PathParam")) {
                         String[] sub = parse.split("value=");
                         if (sub != null && sub.length > 1) {
@@ -243,20 +261,11 @@ public class ActiveModule {
                 }
             }
 
-            String[] sub = path.split("/");
-            ArrayList<String> plist = new ArrayList<>();
-            for (int cnt = 0; cnt < sub.length; cnt++) {
-                if (!sub[cnt].equals("")) {
-                    plist.add(sub[cnt]);
-                }
-            }
-            sub = new String[plist.size()];
-            for (int cnt = 0; cnt < plist.size(); cnt++) {
-                sub[cnt] = plist.get(cnt);
-            }
-            
-            System.out.println("Method " + method + " meth " + meth.getName() + " path " + path + " produces " + produces);
+//            for (Type tt : meth.getGenericParameterTypes()) {
+//                System.out.println("Type is " + tt);
+//            }
             addResource(method, path, list, produces);
+
         }
 
         moduleInfo.append("</table>").append("<br>\n");
@@ -270,50 +279,5 @@ public class ActiveModule {
 
     public String getContext() {
         return context;
-    }
-
-    public void parseModule(Request request, Response response) throws IOException {
-
-//        Path path = request.getPath();
-//        String check = path.getPath();
-//        if (check.startsWith("/")) {
-//            check = check.replaceFirst("/", "");
-//        }
-//        if (!context.equals("")) {
-//            check = check.replaceFirst(context, "");
-//        } else {
-//            check = "/" + check;
-//        }
-//
-//        System.out.println("Check is " + check);
-        search.callMethod(request, response);
-        
-//        
-//        String directory = path.getDirectory();
-//        String name = path.getName();
-//        Query q = request.getQuery();
-//
-//        Set<Map.Entry<String, String>> entry = q.entrySet();
-//        for (Map.Entry<String, String> en : entry) {
-//            System.out.println("For entry " + en.getKey() + " the value " + en.getValue());
-//        }
-//        System.out.println("Request was for path " + path + " dir " + directory
-//                + " name " + name);
-//        String[] segments = path.getSegments();
-//        
-//        for (String seg : segments) {
-//            System.out.println("Segment " + seg);
-//        }
-//        PrintStream body = response.getPrintStream();
-//        long time = System.currentTimeMillis();
-//
-//        response.setValue(Protocol.CONTENT_TYPE, "text/plain");
-//        response.setValue("Server", "GranolaServer 0.9");
-//        response.setDate("Date", time);
-//        response.setDate("Last-Modified", time);
-//
-//
-//        body.println("Hello World " + check);
-//        body.close();
     }
 }

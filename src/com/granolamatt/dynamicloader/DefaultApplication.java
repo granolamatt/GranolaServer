@@ -7,36 +7,41 @@ package com.granolamatt.dynamicloader;
 import com.granolamatt.hardware.RestHardware;
 import com.granolamatt.logger.RestLogger;
 import com.granolamatt.root.RestRoot;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.ws.rs.core.Application;
+import java.util.logging.Logger;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.sse.SseFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  *
  * @author root
  */
-public class DefaultApplication extends Application {
+public class DefaultApplication extends ResourceConfig {
+//private final Set<Class<?>> classes;
 
-    private final Set<Class<?>> classes;
+    private static final Logger LOGGER = Logger.getLogger(DefaultApplication.class.getName());
 
     public DefaultApplication() {
+        register(RestRoot.class);
+        register(RestLogger.class);
+        register(RestHardware.class);
+        register(MultiPartFeature.class);
+        register(SseFeature.class);
+//        register(MyObjectMapperProvider.class);  // No need to register this provider if no special configuration is required.
+//        register(JacksonFeature.class);
+//        registerInstances(new LoggingFilter(LOGGER, true));
 
-        HashSet<Class<?>> c = new HashSet<>();
-        c.add(RestRoot.class);
-        c.add(RestLogger.class);
-        c.add(RestHardware.class);
-        classes = Collections.unmodifiableSet(c);
+//          HashSet<Class<?>> c = new HashSet<>();
+//        c.add(RestRoot.class);
+//        c.add(RestLogger.class);
+//        c.add(RestHardware.class);
+//        classes = Collections.unmodifiableSet(c);
     }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        return super.getProperties(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Set<Class<?>> getClasses() {
-        return classes;
-    }
+//    @Override
+//    public Set<Class<?>> getClasses() {
+//
+//        return classes;
+//    }
 }

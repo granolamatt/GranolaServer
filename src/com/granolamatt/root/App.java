@@ -1,67 +1,58 @@
 package com.granolamatt.root;
 
+import com.granolamatt.dynamicloader.DefaultApplication;
 import com.granolamatt.hardware.HardwareMemory;
 import com.granolamatt.htmlhelpers.BasicDocument;
 import com.granolamatt.logger.LoggerOut;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.ws.rs.core.UriBuilder;
+
 import java.io.File;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.simpleframework.http.Request;
-import org.simpleframework.http.Response;
-import org.simpleframework.http.core.Container;
-import org.simpleframework.http.core.ContainerServer;
-import org.simpleframework.transport.Server;
-import org.simpleframework.transport.connect.Connection;
-import org.simpleframework.transport.connect.SocketConnection;
+import javax.ws.rs.ext.RuntimeDelegate;
+import org.glassfish.grizzly.http.server.HttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.ServerConfiguration;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
 
 public class App {
 
     private static String bindAddress = "localhost";
-    private static Server server;
-    private static final int port = 7023;
+    private static HttpServer server;
     private final static List<ActiveModule> moduleList = new LinkedList<>();
+    
 
-    public static class RestContainer implements Container {
+    static void startServerGrizzly() throws IOException {
 
-        private final Executor executor;
+        final ResourceConfig resourceConfig = new DefaultApplication();
+        
+        server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI());
+        server.start();
 
-        public RestContainer(int size) {
-            this.executor = Executors.newFixedThreadPool(size);
-        }
+        // Map the path to the processor.
+        final ServerConfiguration config = server.getServerConfiguration();
 
-        @Override
-        public void handle(Request request, Response response) {
-            Task task = new Task(request, response, moduleList);
-            executor.execute(task);
-        }
-    }
+        // create a handler wrapping the JAX-RS application
+//        Application def = new DefaultApplication().packages("org.glassfish.jersey.examples.multipart")
+//                .register(MultiPartFeature.class);
+        
+        HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(resourceConfig, HttpHandler.class);
+        config.addHttpHandler(handler, getBaseURI().getPath());
 
-    static void startServer() throws IOException {
+        server.start();
 
-        Container container = new RestContainer(10);
-        server = new ContainerServer(container);
-        Connection connection = new SocketConnection(server);
-        SocketAddress address = new InetSocketAddress(port);
-
-        connection.connect(address);
-
-        ActiveModule root = new ActiveModule();
+        ActiveModule root = new ActiveModule(server);
         synchronized (moduleList) {
             moduleList.add(root);
         }
 
         loadFromDir();
-
     }
 
     public static void loadFromDir() {
@@ -78,7 +69,7 @@ public class App {
     }
 
     public static void addModule(File file) {
-        ActiveModule am = new ActiveModule(file);
+        ActiveModule am = new ActiveModule(server, file);
         synchronized (moduleList) {
             moduleList.add(am);
         }
@@ -161,13 +152,12 @@ public class App {
         HardwareMemory.loadDriver();
 //        testI2C();
 
-
         if (args.length > 0) {
             bindAddress = args[0];
         }
         System.out.println("\"Hello World\" Jersey Example Application");
 
-        startServer();
+        startServerGrizzly();
 
         LoggerOut.println("Application started.\n");
         System.out.println(
@@ -194,6 +184,8 @@ public class App {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        //      server.stop(0);
     }
 
     public static void getModulesInfo(BasicDocument doc) {
@@ -204,14 +196,21 @@ public class App {
         }
     }
 
-    public static URI getBaseURI() {
-        URI uri = null;
-        try {
-            uri = new URI("http://" + bindAddress + "/:" + port);
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+    private static int getPort(int defaultPort) {
+        final String port = System.getProperty("jersey.config.test.container.port");
+        if (null != port) {
+            try {
+                return Integer.parseInt(port);
+            } catch (NumberFormatException e) {
+                System.out.println("Value of jersey.config.test.container.port property"
+                        + " is not a valid positive integer [" + port + "]."
+                        + " Reverting to default [" + defaultPort + "].");
+            }
         }
-        return uri;
-//        return UriBuilder.fromUri("http://" + bindAddress + "/").port(getPort(7023)).build();
+        return defaultPort;
+    }
+
+    public static URI getBaseURI() {
+        return UriBuilder.fromUri("http://" + bindAddress + "/").port(getPort(7023)).build();
     }
 }
