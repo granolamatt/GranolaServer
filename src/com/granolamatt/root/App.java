@@ -1,30 +1,27 @@
 package com.granolamatt.root;
 
+import static com.example.Main.BASE_URI;
 import com.granolamatt.dynamicloader.DefaultApplication;
 import com.granolamatt.hardware.HardwareMemory;
 import com.granolamatt.htmlhelpers.BasicDocument;
 import com.granolamatt.logger.LoggerOut;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-
-import javax.ws.rs.core.UriBuilder;
-
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
-import org.glassfish.grizzly.http.server.HttpHandler;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.ServerConfiguration;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.simple.SimpleContainerFactory;
+import org.glassfish.jersey.simple.SimpleServer;
 
 public class App {
 
     private static String bindAddress = "localhost";
-    private static HttpServer server;
+    private static SimpleServer server;
     private final static List<ActiveModule> moduleList = new LinkedList<>();
     
 
@@ -32,48 +29,28 @@ public class App {
 
         final ResourceConfig resourceConfig = new DefaultApplication();
         
-        server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI());
-        server.start();
+        server = SimpleContainerFactory.create(getBaseURI(), resourceConfig);
+        
 
         // Map the path to the processor.
-        final ServerConfiguration config = server.getServerConfiguration();
+//        final ServerConfiguration config = server.getServerConfiguration();
+//
+//        // create a handler wrapping the JAX-RS application
+////        Application def = new DefaultApplication().packages("org.glassfish.jersey.examples.multipart")
+////                .register(MultiPartFeature.class);
+//        
+//        HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(resourceConfig, HttpHandler.class);
+//        config.addHttpHandler(handler, getBaseURI().getPath());
 
-        // create a handler wrapping the JAX-RS application
-//        Application def = new DefaultApplication().packages("org.glassfish.jersey.examples.multipart")
-//                .register(MultiPartFeature.class);
-        
-        HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(resourceConfig, HttpHandler.class);
-        config.addHttpHandler(handler, getBaseURI().getPath());
-
-        server.start();
+//        server.start();
 
         ActiveModule root = new ActiveModule(server);
         synchronized (moduleList) {
             moduleList.add(root);
         }
 
-        loadFromDir();
     }
 
-    public static void loadFromDir() {
-        File uploadDir = new File("/opt/granola");
-        if (uploadDir.exists() && uploadDir.isDirectory()) {
-            File[] files = uploadDir.listFiles();
-            for (File testJar : files) {
-                if (testJar.getName().endsWith(".jar")) {
-                    addModule(testJar);
-                }
-            }
-        }
-
-    }
-
-    public static void addModule(File file) {
-        ActiveModule am = new ActiveModule(server, file);
-        synchronized (moduleList) {
-            moduleList.add(am);
-        }
-    }
 
     public static void removeModule(String moduleContext) {
         synchronized (moduleList) {

@@ -15,10 +15,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.glassfish.grizzly.http.server.HttpHandler;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.jersey.server.ContainerFactory;
+import org.glassfish.jersey.simple.SimpleServer;
 
 /**
  *
@@ -28,11 +26,11 @@ public class ActiveModule {
 
     private final String context;
     private JaxRsDynamicLoader dynamicLoader = null;
-    private HttpServer server = null;
+    private SimpleServer server = null;
     private final StringBuilder moduleInfo = new StringBuilder();
     private final boolean debug = true;
 
-    public ActiveModule(HttpServer server) {
+    public ActiveModule(SimpleServer server) {
         this.server = server;
         this.context = "";
 
@@ -55,51 +53,51 @@ public class ActiveModule {
 
     }
 
-    public ActiveModule(HttpServer httpServer, File file) {
-        this.server = httpServer;
-        String jarName = file.getName();
-        context = jarName.replaceAll(".jar", "").replaceAll(" ", "");
-        dynamicLoader = new JaxRsDynamicLoader(file);
-        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader);
-        LoggerOut.println("Adding dynamic context " + context);
-        // Map the path to the processor.
-        final ServerConfiguration config = server.getServerConfiguration();
-        Map<HttpHandler, String[]> handlers = config.getHttpHandlers();
-        HttpHandler old = null;
-        for (HttpHandler hand : handlers.keySet()) {
-            String[] oldPath = handlers.get(hand);
-            if (oldPath[0].equals(getBaseURI().getPath() + context)) {
-                old = hand;
-                break;
-            }
-        }
-        config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
-        if (old != null) {
-            old.destroy();
-            config.removeHttpHandler(old);
-            config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
-        }
-
-        synchronized (moduleInfo) {
-            moduleInfo.append("<p>");
-            moduleInfo.append("<hr><br>\n");
-            moduleInfo.append("Context /");
-            moduleInfo.append(context);
-            moduleInfo.append("<br>\n");
-            moduleInfo.append("Base ");
-            addHyperLink("");
-            moduleInfo.append("<br>\n");
-
-            addRemove();
-
-            for (Class<?> myClass : dynamicLoader.getClasses()) {
-                loadJAX(myClass);
-            }
-
-            moduleInfo.append("<br>");
-            moduleInfo.append("</p>\n");
-        }
-    }
+//    public ActiveModule(SimpleServer httpServer, File file) {
+//        this.server = httpServer;
+//        String jarName = file.getName();
+//        context = jarName.replaceAll(".jar", "").replaceAll(" ", "");
+//        dynamicLoader = new JaxRsDynamicLoader(file);
+//        HttpHandler dynamicHandler = ContainerFactory.createContainer(HttpHandler.class, dynamicLoader);
+//        LoggerOut.println("Adding dynamic context " + context);
+//        // Map the path to the processor.
+//        final ServerConfiguration config = server.getServerConfiguration();
+//        Map<HttpHandler, String[]> handlers = config.getHttpHandlers();
+//        HttpHandler old = null;
+//        for (HttpHandler hand : handlers.keySet()) {
+//            String[] oldPath = handlers.get(hand);
+//            if (oldPath[0].equals(getBaseURI().getPath() + context)) {
+//                old = hand;
+//                break;
+//            }
+//        }
+//        config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
+//        if (old != null) {
+//            old.destroy();
+//            config.removeHttpHandler(old);
+//            config.addHttpHandler(dynamicHandler, getBaseURI().getPath() + context);
+//        }
+//
+//        synchronized (moduleInfo) {
+//            moduleInfo.append("<p>");
+//            moduleInfo.append("<hr><br>\n");
+//            moduleInfo.append("Context /");
+//            moduleInfo.append(context);
+//            moduleInfo.append("<br>\n");
+//            moduleInfo.append("Base ");
+//            addHyperLink("");
+//            moduleInfo.append("<br>\n");
+//
+//            addRemove();
+//
+//            for (Class<?> myClass : dynamicLoader.getClasses()) {
+//                loadJAX(myClass);
+//            }
+//
+//            moduleInfo.append("<br>");
+//            moduleInfo.append("</p>\n");
+//        }
+//    }
 
     private void addRemove() {
         moduleInfo.append("<p>");

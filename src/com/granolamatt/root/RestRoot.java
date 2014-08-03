@@ -101,7 +101,7 @@ public class RestRoot {
         String output = "File uploaded to : " + uploadedFileLocation;
 
         File jarName = new File(uploadedFileLocation);
-        App.addModule(jarName);
+//        App.addModule(jarName);
 
         BasicDocument doc = new BasicDocument(5);
         doc.addContent(output);
