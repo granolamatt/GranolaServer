@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>My SVG Test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="svg.js"></script>
+        <script type="text/javascript" src="svg.import.js"></script>
+    </head>
+    <body>
+        <div id="canvas"></div>
+        <script>
+
+            var rawSVG = '<svg width="100%" height="100%" version="1.1" xmlns:z="http://debeissat.nicolas.free.fr/svg3d/svg3d.rng" xmlns="http://www.w3.org/2000/svg" onload="init(this)" z:rotationTime="100" z:sortAlgo="none"><circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="red"></circle></svg>';
+            var draw = SVG('canvas').size(300, 300);
+            var id = 1;
+            var image = draw.svg(rawSVG, function() {
+                this.data('import-id', 'element-' + id);
+                id++;
+            });
+        </script>
+    </body>
+</html>
