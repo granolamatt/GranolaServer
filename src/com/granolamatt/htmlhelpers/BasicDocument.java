@@ -5,6 +5,7 @@
 package com.granolamatt.htmlhelpers;
 
 import com.granolamatt.html.HTMLBody;
+import com.granolamatt.html.HTMLHead;
 import com.granolamatt.html.HTMLMETA;
 import com.granolamatt.html.HTMLP;
 import com.granolamatt.html.HTMLhtml;
@@ -15,10 +16,9 @@ import com.granolamatt.html.HTMLhtml;
  */
 public class BasicDocument {
 
-//    private final StringBuilder buffer = new StringBuilder();
-//    private int refresh = -1;
     private HTMLMETA meta = null;
-    private HTMLP para = new HTMLP();
+    
+    private final HTMLP para = new HTMLP();
 
     public BasicDocument() {
     }
@@ -51,6 +51,7 @@ public class BasicDocument {
         if (meta != null) {
             document.addHTMLContent(meta);
         }
+        document.addHTMLContent(new HTMLHead());
         document.addHTMLContent(new HTMLBody()).addHTMLContent(para);
         document.getHTML(cont);
         return cont.toString();

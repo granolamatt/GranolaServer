@@ -53,8 +53,9 @@ public abstract class HTMLType {
 
     }
 
-    public void addAttribute(String key, String val) {
+    public HTMLType addAttribute(String key, String val) {
         attributes.put(key, val);
+        return this;
     }
 
     public <T> T addHTMLContent(T type) {

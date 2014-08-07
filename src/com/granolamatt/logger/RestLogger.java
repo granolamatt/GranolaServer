@@ -101,13 +101,21 @@ public class RestLogger {
     @Path("/data")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getExampleData() {
-        BattersExample example = new BattersExample();
-        example.items.add(new BatterExampleData());
-        String json = "{\"name\":\"mkyong\", \"age\":\"29\"}";
-        //example.items.add(new BatterExampleData());
-        
-        Response ret = Response.ok(json).build();
-        System.out.println("Returning Length " + ret.getLength());
-        return ret;
+        final int num = (int)(Math.random()*100);
+        StringBuilder ret = new StringBuilder();
+        ret.append("[");
+        for (int cnt = 0; cnt < num; cnt++) {
+            if (cnt > 0) {
+                ret.append(",");
+            }
+            ret.append("{\"x\":\"");
+            ret.append(Integer.toString(cnt));
+            ret.append("\",\"y\":\"");
+            double val = 100 * Math.random();
+            ret.append(Double.toString(val));
+            ret.append("\"}\n");
+        }
+        ret.append("]");
+        return Response.ok(ret.toString()).build();
     }
 }

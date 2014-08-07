@@ -10,7 +10,7 @@ package com.granolamatt.html;
  */
 public class HTMLP extends HTMLType {
 
-    private StringBuilder paragraph = new StringBuilder();
+    private final StringBuilder paragraph = new StringBuilder();
     
     public HTMLP addLine(String line) {
         paragraph.append(line).append("<br>\n");
@@ -26,7 +26,6 @@ public class HTMLP extends HTMLType {
     @Override
     public void getValue(StringBuilder output) {
         output.append(paragraph);
-
     }
     
 }

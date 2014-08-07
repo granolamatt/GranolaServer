@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -87,21 +85,12 @@ public class RestRoot {
 
         File uploadDir = new File("/opt/granola");
         uploadDir.mkdirs();
-        
-        if (!uploadDir.exists()) {
-            try {
-                File tmp = File.createTempFile(fileDetail.getFileName(), ".tmp");
-                uploadedFileLocation = tmp.getAbsolutePath();
-            } catch (IOException ex) {
-                Logger.getLogger(RestRoot.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
         writeToFile(uploadedInputStream, uploadedFileLocation);
         String output = "File uploaded to : " + uploadedFileLocation;
 
         File jarName = new File(uploadedFileLocation);
-//        App.addModule(jarName);
+        App.addModule(jarName);
 
         BasicDocument doc = new BasicDocument(5);
         doc.addContent(output);

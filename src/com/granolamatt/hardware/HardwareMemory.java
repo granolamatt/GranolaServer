@@ -27,6 +27,7 @@ public class HardwareMemory {
      */
     private static IntBuffer gpioMem = null;
     private static IntBuffer i2cMem = null;
+    private static IntBuffer timerMem = null;
     private static int pcbVersion;
     private static int i2cByteTxTime_ms;
 
@@ -662,6 +663,16 @@ public class HardwareMemory {
      * cycles which is 0.6 uS (1 / 250 MHz * 150). (250 Mhz is the core clock)
      */
     private static final int RESISTOR_SLEEP_US = 1;
+    private static final int TIMER_BASE = (0x2000B000);
+    private static final int TIMER_LOAD = (0x400 >> 2);
+    private static final int TIMER_VALUE = (0x404 >> 2);
+    private static final int TIMER_CONTROL = (0x408 >> 2);
+    private static final int TIMER_IRQ_CLR = (0x40C >> 2);
+    private static final int TIMER_IRQ_RAW = (0x410 >> 2);
+    private static final int TIMER_IRQ_MASK = (0x414 >> 2);
+    private static final int TIMER_RELOAD = (0x418 >> 2);
+    private static final int TIMER_PRE_DIV = (0x41C >> 2);
+    private static final int TIMER_COUNTER = (0x420 >> 2);
 
     /**
      * @brief BSC_C register
@@ -833,7 +844,14 @@ public class HardwareMemory {
             memi2c.order(ByteOrder.LITTLE_ENDIAN);
             i2cMem = memi2c.asIntBuffer();
 
-//            downUser("pi");
+//            ByteBuffer memtimer = setupTimer();
+//            memtimer.order(ByteOrder.LITTLE_ENDIAN);
+//            timerMem = memtimer.asIntBuffer();
+            //setupHardwareTimer(250);
+//            setupHardwareTimer(28125);  // This is for the nec ir protocol
+            // This will make 5 samples per ir pulse
+
+            downUser("pi");
 //            downUser("nobody");
         } catch (UnsatisfiedLinkError e) {
             System.out.println("Loading arm library did not work, are you on the pi");
@@ -1110,6 +1128,39 @@ public class HardwareMemory {
         return rtn;
     }
 
+    /**
+     * Sets the hardware timer for use in waits
+     *
+     * @param denom demom of 250Mhz clock
+     */
+    public static void setupHardwareTimer(int denom) {
+        timerMem.put(TIMER_CONTROL, 0x280);
+        timerMem.put(TIMER_PRE_DIV, denom);
+    }
+
+    /**
+     * Polls for a hardware wait on count clocks. The clock rate is set using
+     * setupHardwareTimer using the demom. So to wait 100 microseconds, call
+     * setupHardwareTimer(250); and then call hardwareWait(100);. This function
+     * is meant for only short precise waits.
+     *
+     * @param count number of IRQ timer clocks
+     */
+    public static void hardwareWait(int count) {
+        timerMem.put(TIMER_LOAD, count);
+        timerMem.put(TIMER_IRQ_CLR, 0);
+        while (timerMem.get(TIMER_IRQ_RAW) == 0) {
+        }
+    }
+
+    public static void hardwareTimerReset() {
+        timerMem.put(TIMER_IRQ_CLR, 0);
+    }
+
+    public static int hardwareCounter() {
+        return timerMem.get(TIMER_IRQ_RAW);
+    }
+
     private static void gpioI2cSetClock(int frequency) {
         /*Note CDIV is always rounded down to an even number */
         putI2C_DIV(250000000 / frequency);
@@ -1131,4 +1182,8 @@ public class HardwareMemory {
     private static native ByteBuffer setupI2C(int pcbRevNumber);
 
     private static native void downUser(String user);
+
+    private static native ByteBuffer setupTimer();
+
+    public static native void nanoSleep(int num);
 }
