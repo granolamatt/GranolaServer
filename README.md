@@ -10,8 +10,8 @@ I have tried many different servers and ultimately decided on Jetty.  To compile
 2) cd to GranolaServer/jetty-service directory <br>
 3) run: mvn package <br>
 <br>
-Maven will then download all requirements for jetty server and jersey and package them into a single jar
-This jar is a requirement for the Netbeans project.
+Maven will then download all requirements for jetty server and jersey and package them into a single jar.
+This jar is a requirement for the Netbeans project.  I do not use maven to compile the project itself, only to find the dependencies.
 <br>
 4) Open GranolaServer project in netbeans <br>
 5) Run the server and then log into http://localhost:7023 <br>
