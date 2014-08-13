@@ -60,7 +60,7 @@ public class RestRoot {
     public Response removeModule(@PathParam("context") String context) {
         LoggerOut.println("Removing module " + context);
         BasicDocument doc = new BasicDocument();
-        App.removeModule(context);
+
         doc.addLine("Removed Module " + context);
         doc.addLine("");
         rootChange.firePropertyChange("module-removed", "", context);

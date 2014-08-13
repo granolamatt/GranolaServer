@@ -51,25 +51,6 @@ public class App {
     }
 
 
-    public static void removeModule(String moduleContext) {
-        synchronized (moduleList) {
-            LinkedList<ActiveModule> removeList = new LinkedList<>();
-            for (ActiveModule module : moduleList) {
-                if (module.getContext().equals(moduleContext)) {
-                    removeList.add(module);
-                    module.stopModule();
-                }
-            }
-            for (ActiveModule module : removeList) {
-                moduleList.remove(module);
-            }
-        }
-//        server.removeContext("/" + moduleContext);
-        File jarFile = new File("/opt/granola/" + moduleContext + ".jar");
-        if (jarFile.exists()) {
-            jarFile.delete();
-        }
-    }
 
 //    private static void testGPIO() {
 //        HardwareMemory.InpGPIO(4); // must use INP_GPIO before we can use OUT_GPIO
@@ -137,7 +118,7 @@ public class App {
 
         LoggerOut.println("Application started.\n");
         System.out.println(
-                "Try accessing " + getBaseURI() + "root in the browser.\n");
+                "Try accessing " + getBaseURI() + " in the browser.\n");
         final Thread thisThread = Thread.currentThread();
         Thread stop = new Thread() {
             @Override
