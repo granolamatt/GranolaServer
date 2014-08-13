@@ -1,0 +1,20 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="300">
+
+    <script type="application/javascript" xlink:href="svg-interaction.js" />
+    <line x1="49.5" y1="0" x2="49.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="99.5" y1="0" x2="99.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="149.5" y1="0" x2="149.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="199.5" y1="0" x2="199.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="249.5" y1="0" x2="249.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="299.5" y1="0" x2="299.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="349.5" y1="0" x2="349.5" y2="300" stroke="#bbe4ba"/>
+    <line x1="0" y1="49.5" x2="400" y2="49.5" stroke="#bbe4ba"/>
+    <line x1="0" y1="99.5" x2="400" y2="99.5" stroke="#bbe4ba"/>
+    <line x1="0" y1="149.5" x2="400" y2="149.5" stroke="#bbe4ba"/>
+    <line x1="0" y1="199.5" x2="400" y2="199.5" stroke="#bbe4ba"/>
+    <line x1="0" y1="249.5" x2="400" y2="249.5" stroke="#bbe4ba"/>
+    <g id="g1" onclick="doClick(this)">
+        <circle id="my-circle" cx="100" cy="100" r="50" stroke="#3080d0" fill="#3080d0" stroke-width="4" fill-opacity="0.5"/>
+    </g>
+    <rect x="0.5" y="0.5" width="399" height="299" stroke="#333" fill="none"/>
+</svg>

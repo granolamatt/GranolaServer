@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.2"
+   width="744.09448"
+   height="1052.3622"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="drawing.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1053"
+     inkscape:window-height="815"
+     id="namedview3025"
+     showgrid="false"
+     inkscape:zoom="0.72978677"
+     inkscape:cx="372.04724"
+     inkscape:cy="635.80215"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="-293.9073 : 674.19949 : 1"
+       inkscape:vp_y="0 : 664.25624 : 0"
+       inkscape:vp_z="917.53586 : 674.19949 : 1"
+       inkscape:persp3d-origin="311.81428 : 557.69312 : 1"
+       id="perspective3869" />
+    <filter
+       x="-0.024382452"
+       y="-0.11959011"
+       width="1.0487649"
+       height="1.2391802"
+       color-interpolation-filters="sRGB"
+       id="filter3877">
+      <feGaussianBlur
+         id="feGaussianBlur3879"
+         stdDeviation="1.4948764" />
+    </filter>
+    <filter
+       x="-0.024382452"
+       y="-0.11959011"
+       width="1.0487649"
+       height="1.2391802"
+       color-interpolation-filters="sRGB"
+       id="filter3877-2">
+      <feGaussianBlur
+         id="feGaussianBlur3879-0"
+         stdDeviation="1.4948764" />
+    </filter>
+    <filter
+       x="-0.024382452"
+       y="-0.11959011"
+       width="1.0487649"
+       height="1.2391802"
+       color-interpolation-filters="sRGB"
+       id="filter3877-1">
+      <feGaussianBlur
+         id="feGaussianBlur3879-3"
+         stdDeviation="1.4948764" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <g
+       transform="translate(-1.4285714,4.2857143)"
+       id="xSelect"
+       style="display:none">
+      <path
+         d="M 246.42857,126.6479 539.28571,365.21933"
+         id="path3763"
+         style="fill:none;stroke:#000000;stroke-width:17;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         d="M 539.9892,128.08727 245.72509,363.77995"
+         id="path3765"
+         style="fill:none;stroke:#000000;stroke-width:17;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <rect
+       width="575.71429"
+       height="637.14288"
+       x="75.714287"
+       y="78.076469"
+       id="rect3875"
+       style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-opacity:1" />
+    <g
+       id="g3902">
+      <title
+         id="title3035">Read Config</title>
+      <desc
+         id="desc3795">pushButton</desc>
+      <rect
+         width="98.571426"
+         height="31.428572"
+         x="99.986465"
+         y="93.790756"
+         id="rect3896"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-opacity:1" />
+      <text
+         x="106.92014"
+         y="113.36735"
+         id="text3898"
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="106.92014"
+           y="113.36735"
+           id="tspan3900"
+           style="font-size:14px;line-height:121.00002766%">Read Config</tspan></text>
+    </g>
+    <g
+       transform="translate(116.44211,-2.2857141e-6)"
+       id="g3938">
+      <desc
+         id="desc3859">pushButton</desc>
+      <rect
+         width="98.571426"
+         height="31.428572"
+         x="99.986465"
+         y="93.790756"
+         id="rect3896-4"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-opacity:1" />
+      <text
+         x="106.48605"
+         y="113.36735"
+         id="text3898-5"
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="106.48605"
+           y="113.36735"
+           id="tspan3934"
+           style="font-size:14px;line-height:121.00002766%">Write Config</tspan></text>
+    </g>
+    <g
+       transform="translate(2.15639,51.428569)"
+       id="g3960">
+      <desc
+         id="desc3861">pushButton</desc>
+      <rect
+         width="98.571426"
+         height="31.428572"
+         x="99.986465"
+         y="93.790756"
+         id="rect3896-1"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-opacity:1" />
+      <text
+         x="113.70821"
+         y="114.72428"
+         id="text3898-8"
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="113.70821"
+           y="114.72428"
+           id="tspan3956"
+           style="font-size:14px;line-height:121.00002766%">Start Card</tspan></text>
+    </g>
+    <rect
+       width="540"
+       height="501.42856"
+       x="97.14286"
+       y="196.6479"
+       id="rect3009"
+       style="fill:#0000ff;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+    <g
+       id="g3856">
+      <desc
+         id="desc3863">pushButton</desc>
+      <rect
+         width="98.571426"
+         height="31.428572"
+         x="110.71429"
+         y="212.36218"
+         id="rect3896-1-7"
+         style="fill:#e6e6e6;fill-opacity:1;stroke:#000000;stroke-linejoin:round;stroke-opacity:1" />
+      <text
+         x="121.76318"
+         y="233.2957"
+         id="text3898-8-2"
+         xml:space="preserve"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="121.76318"
+           y="233.2957"
+           id="tspan3806"
+           style="font-size:14px;line-height:121.00002766%">Reset Card</tspan></text>
+    </g>
+    <flowRoot
+       transform="translate(10.727821,118.57143)"
+       id="flowRoot3810"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3812"><rect
+           width="402.85715"
+           height="124.28571"
+           x="-41.42857"
+           y="185.21933"
+           id="rect3814" /></flowRegion><flowPara
+         id="flowPara3816" /></flowRoot>    <text
+       x="290"
+       y="273.79074"
+       id="text3861"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+         x="290"
+         y="273.79074"
+         id="tspan3863" /></text>
+    <g
+       id="g3097">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:2.20000000000000018;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
+         id="rect3865"
+         y="213.79076"
+         x="224.28574"
+         height="30.000002"
+         width="147.14285">
+        <desc
+           id="desc3857">textField</desc>
+      </rect>
+      <text
+         sodipodi:linespacing="121.00003%"
+         x="226.15631"
+         y="235.42345"
+         id="text3898-8-5"
+         xml:space="preserve"
+         style="font-size:18px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="226.15631"
+           y="235.42345"
+           id="tspan3956-5"
+           style="font-size:18px;line-height:121.00002766%">Start Card</tspan></text>
+    </g>
+    <g
+       id="g3103">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:2.20000000000000018;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
+         id="rect3865-1"
+         y="264.50504"
+         x="225"
+         height="30.000002"
+         width="147.14285">
+        <desc
+           id="desc3865">textField</desc>
+      </rect>
+      <text
+         sodipodi:linespacing="121.00003%"
+         x="229.69781"
+         y="284.87387"
+         id="text3898-8-5-7"
+         xml:space="preserve"
+         style="font-size:18px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="229.69781"
+           y="284.87387"
+           id="tspan3956-5-8"
+           style="font-size:18px;line-height:121.00002766%">Start Card</tspan></text>
+    </g>
+    <g
+       id="g3109">
+      <rect
+         style="fill:#ffffff;stroke:#000000;stroke-width:2.20000000000000018;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
+         id="rect3865-6"
+         y="317.36218"
+         x="223.57143"
+         height="30.000002"
+         width="147.14285">
+        <desc
+           id="desc3867">textField</desc>
+      </rect>
+      <text
+         sodipodi:linespacing="121.00003%"
+         x="229.69781"
+         y="336.94391"
+         id="text3898-8-5-9"
+         xml:space="preserve"
+         style="font-size:18px;font-style:normal;font-weight:normal;line-height:121.00002766%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+           x="229.69781"
+           y="336.94391"
+           id="tspan3956-5-2"
+           style="font-size:18px;line-height:121.00002766%">Start Card</tspan></text>
+    </g>
+  </g>
+</svg>

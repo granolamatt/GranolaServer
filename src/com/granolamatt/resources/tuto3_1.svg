@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   onload="myChart()"
+   width="600"
+   height="480"
+   viewBox="0 0 800 640"
+   id="svg2"
+   version="1.1"
+   docname="tuto3.svg"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="tuto3.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     pageopacity="0.0"
+     pageshadow="2"
+     zoom="4.8402771"
+     cx="470.46413"
+     cy="77.479015"
+     document-units="px"
+     current-layer="layer1"
+     showgrid="false"
+     window-width="1280"
+     window-height="753"
+     window-x="0"
+     window-y="1"
+     window-maximized="1"
+     showguides="true"
+     guide-bbox="true"
+     inkscape:zoom="0.49166667"
+     inkscape:cx="300"
+     inkscape:cy="240"
+     inkscape:window-width="483"
+     inkscape:window-height="451"
+     inkscape:window-x="138"
+     inkscape:window-y="292"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           resource="http://purl.org/dc/dcmitype/StillImage"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <script type="text/javascript" xlink:href="d3.js" />
+  <script type="text/javascript" xlink:href="chartmagic.js" />
+  <g
+     groupmode="layer"
+     id="layer1"
+     label="layer1">
+    <rect
+       style="color:#000000;fill:#d5e5ff;stroke:#2c5aa0;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3765-1-7"
+       width="150"
+       height="50"
+       x="0"
+       y="0" />
+    <rect
+       style="color:#000000;fill:#d5e5ff;stroke:#2c5aa0;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3765-1-7-4"
+       width="150"
+       height="50"
+       x="0"
+       y="320" />
+    <rect
+       style="color:#000000;fill:#f0f6ff;fill-opacity:1;stroke:#2c5aa0;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="list1"
+       width="150"
+       height="270"
+       x="0"
+       y="50"
+       label="list1" />
+    <rect
+       style="color:#000000;fill:#f0f6ff;stroke:#2c5aa0;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1"
+       id="list2"
+       width="150"
+       height="270"
+       x="0"
+       y="370"
+       label="list2" />
+    <rect
+       label="chart_panel"
+       y="140"
+       x="240"
+       height="300"
+       width="80"
+       id="chart_panel-4"
+       style="color:#000000;fill:#f0f6ff;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1" />
+    <rect
+       label="chart_panel"
+       y="140"
+       x="620"
+       height="300"
+       width="80"
+       id="chart_panel-4-8"
+       style="color:#000000;fill:#f0f6ff;stroke:none;stroke-width:0.99999994000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1" />
+    <rect
+       label="chart_panel"
+       y="60"
+       x="320"
+       height="80"
+       width="300"
+       id="chart_panel-8"
+       style="color:#000000;fill:#f0f6ff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1" />
+    <rect
+       label="chart_panel"
+       y="440"
+       x="320"
+       height="80"
+       width="300"
+       id="chart_panel-8-2"
+       style="color:#000000;fill:#f0f6ff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1" />
+    <rect
+       label="button_panel"
+       y="572.25421"
+       x="519.49152"
+       height="32"
+       width="70"
+       id="button_panel"
+       style="color:#000000;fill:#5599ff;fill-opacity:1;stroke:#2c5aa0;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="525.78735"
+       y="594.25909"
+       id="text4084"
+       linespacing="125%"
+       pointer-events="none"
+       sodipodi:linespacing="125%"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Tahoma;-inkscape-font-specification:Tahoma"
+         id="tspan4114">Update</tspan></text>
+    <rect
+       style="color:#000000;fill:#d5e5ff;stroke:#2c5aa0;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="chart_panel"
+       width="300"
+       height="300"
+       x="320"
+       y="140"
+       label="chart_panel" />
+    <rect
+       style="color:#000000;fill:none;stroke:#2c5aa0;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3765-1"
+       width="149.99995"
+       height="640"
+       x="0"
+       y="0" />
+    <path
+       style="color:#000000;fill:#d5e5ff;stroke:#2c5aa0;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 0 0 L 0 640 L 800 640 L 800 0 L 0 0 z M 8.1875 8.1875 L 791.8125 8.1875 L 791.8125 631.8125 L 8.1875 631.8125 L 8.1875 8.1875 z "
+       id="rect3765" />
+    <rect
+       class="bar"
+       width="40"
+       fill="#5599FF"
+       stroke="black"
+       x="330"
+       height="70.3857068438083"
+       y="369.6142931561917"
+       id="rect21" />
+    <rect
+       class="bar"
+       width="40"
+       fill="#5599FF"
+       stroke="black"
+       x="390"
+       height="134.27107371389866"
+       y="305.72892628610134"
+       id="rect23" />
+    <rect
+       class="bar"
+       width="40"
+       fill="#5599FF"
+       stroke="black"
+       x="450"
+       height="236.6219290299341"
+       y="203.3780709700659"
+       id="rect25" />
+    <rect
+       class="bar"
+       width="40"
+       fill="#5599FF"
+       stroke="black"
+       x="510"
+       height="87.55130481440574"
+       y="352.44869518559426"
+       id="rect27" />
+    <rect
+       class="bar"
+       width="40"
+       fill="#5599FF"
+       stroke="black"
+       x="570"
+       height="150.07412913255394"
+       y="289.92587086744606"
+       id="rect29" />
+  </g>
+</svg>
