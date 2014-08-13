@@ -6,3 +6,4 @@
 *.ear
 /build/
 /dist/
+/jetty-service/target/

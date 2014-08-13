@@ -1,6 +1,5 @@
 package com.granolamatt.root;
 
-import static com.example.Main.BASE_URI;
 import com.granolamatt.dynamicloader.DefaultApplication;
 import com.granolamatt.hardware.HardwareMemory;
 import com.granolamatt.htmlhelpers.BasicDocument;
@@ -14,14 +13,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
+import org.eclipse.jetty.server.Server;
+import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.simple.SimpleContainerFactory;
-import org.glassfish.jersey.simple.SimpleServer;
 
 public class App {
 
     private static String bindAddress = "localhost";
-    private static SimpleServer server;
+    private static Server server;
     private final static List<ActiveModule> moduleList = new LinkedList<>();
     
 
@@ -29,7 +28,7 @@ public class App {
 
         final ResourceConfig resourceConfig = new DefaultApplication();
         
-        server = SimpleContainerFactory.create(getBaseURI(), resourceConfig);
+        server = JettyHttpContainerFactory.createServer(getBaseURI(), resourceConfig);
         
 
         // Map the path to the processor.

@@ -15,8 +15,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.server.ContainerFactory;
-import org.glassfish.jersey.simple.SimpleServer;
 
 /**
  *
@@ -26,11 +26,11 @@ public class ActiveModule {
 
     private final String context;
     private JaxRsDynamicLoader dynamicLoader = null;
-    private SimpleServer server = null;
+    private Server server = null;
     private final StringBuilder moduleInfo = new StringBuilder();
     private final boolean debug = true;
 
-    public ActiveModule(SimpleServer server) {
+    public ActiveModule(Server server) {
         this.server = server;
         this.context = "";
 
