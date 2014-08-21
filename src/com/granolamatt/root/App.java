@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.ext.RuntimeDelegate;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -30,7 +31,10 @@ public class App {
         
         server = JettyHttpContainerFactory.createServer(getBaseURI(), resourceConfig);
         
-
+//         ResourceHandler resourceHandler = new ResourceHandler();
+//resourceHandler.setResourceBase("./");
+//resourceConfig.getResources()
+//server.setHandler(resourceHandler);
         // Map the path to the processor.
 //        final ServerConfiguration config = server.getServerConfiguration();
 //

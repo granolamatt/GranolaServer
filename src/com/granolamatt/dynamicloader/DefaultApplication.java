@@ -7,11 +7,12 @@ package com.granolamatt.dynamicloader;
 import com.granolamatt.hardware.RestHardware;
 import com.granolamatt.logger.RestLogger;
 import com.granolamatt.root.RestRoot;
+import com.granolamatt.widget.LEDResource;
 import java.util.logging.Logger;
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.model.Resource;
 
 /**
  *
@@ -23,25 +24,15 @@ public class DefaultApplication extends ResourceConfig {
     private static final Logger LOGGER = Logger.getLogger(DefaultApplication.class.getName());
 
     public DefaultApplication() {
+        LEDResource led = new LEDResource();
+
         register(RestRoot.class);
         register(RestLogger.class);
         register(RestHardware.class);
         register(MultiPartFeature.class);
         register(SseFeature.class);
-//        register(MyObjectMapperProvider.class);  // No need to register this provider if no special configuration is required.
-//        register(JacksonFeature.class);
-//        registerInstances(new LoggingFilter(LOGGER, true));
+        registerResources(led.getResources());
 
-//          HashSet<Class<?>> c = new HashSet<>();
-//        c.add(RestRoot.class);
-//        c.add(RestLogger.class);
-//        c.add(RestHardware.class);
-//        classes = Collections.unmodifiableSet(c);
     }
 
-//    @Override
-//    public Set<Class<?>> getClasses() {
-//
-//        return classes;
-//    }
 }
