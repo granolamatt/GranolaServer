@@ -245,6 +245,26 @@ extern "C" {
 #define com_granolamatt_hardware_HardwareMemory_NUMBER_GPIO 17L
 #undef com_granolamatt_hardware_HardwareMemory_RESISTOR_SLEEP_US
 #define com_granolamatt_hardware_HardwareMemory_RESISTOR_SLEEP_US 1L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_BASE
+#define com_granolamatt_hardware_HardwareMemory_TIMER_BASE 536915968L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_LOAD
+#define com_granolamatt_hardware_HardwareMemory_TIMER_LOAD 256L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_VALUE
+#define com_granolamatt_hardware_HardwareMemory_TIMER_VALUE 257L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_CONTROL
+#define com_granolamatt_hardware_HardwareMemory_TIMER_CONTROL 258L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_CLR
+#define com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_CLR 259L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_RAW
+#define com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_RAW 260L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_MASK
+#define com_granolamatt_hardware_HardwareMemory_TIMER_IRQ_MASK 261L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_RELOAD
+#define com_granolamatt_hardware_HardwareMemory_TIMER_RELOAD 262L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_PRE_DIV
+#define com_granolamatt_hardware_HardwareMemory_TIMER_PRE_DIV 263L
+#undef com_granolamatt_hardware_HardwareMemory_TIMER_COUNTER
+#define com_granolamatt_hardware_HardwareMemory_TIMER_COUNTER 264L
 /*
  * Class:     com_granolamatt_hardware_HardwareMemory
  * Method:    getPCBRev
@@ -276,6 +296,22 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
  */
 JNIEXPORT void JNICALL Java_com_granolamatt_hardware_HardwareMemory_downUser
   (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    setupTimer
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupTimer
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    nanoSleep
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_granolamatt_hardware_HardwareMemory_nanoSleep
+  (JNIEnv *, jclass, jint);
 
 #ifdef __cplusplus
 }

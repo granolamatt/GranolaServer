@@ -118,7 +118,6 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
    void *bsc0_map;
    volatile unsigned *bsc0;
    int ures, gres;
-   struct passwd *p;
 
    /* open /dev/mem */
    if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
@@ -158,6 +157,57 @@ JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupI2C
    return (*env)->NewDirectByteBuffer(env, bsc0_map, BLOCK_SIZE);
 
 } // setup_i2c
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    setupTimer
+ * Signature: (I)Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_granolamatt_hardware_HardwareMemory_setupTimer
+  (JNIEnv *env, jclass class) {
+   int  mem_fd;
+   void *timer_map;
+   int ures, gres;
+   
+   /* open /dev/mem */
+   if ((mem_fd = open("/dev/mem", O_RDWR|O_SYNC) ) < 0) {
+      printf("can't open /dev/mem \n");
+      exit(-1);
+   }
+
+   /* mmap GPIO */
+   timer_map = mmap(
+      NULL,             //Any adddress in our space will do
+      BLOCK_SIZE,       //Map length
+      PROT_READ|PROT_WRITE,// Enable reading & writting to mapped memory
+      MAP_SHARED,       //Shared with other processes
+      mem_fd,           //File to map
+      com_granolamatt_hardware_HardwareMemory_TIMER_BASE         //Offset to Timer
+   );
+   
+   close(mem_fd); //No need to keep mem_fd open after mmap
+
+   if (timer_map == MAP_FAILED) {
+      printf("mmap error \n");//errno also set!
+      exit(-1);
+   }
+
+   return (*env)->NewDirectByteBuffer(env, timer_map, BLOCK_SIZE);
+   
+}
+
+/*
+ * Class:     com_granolamatt_hardware_HardwareMemory
+ * Method:    nanoSleep
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_granolamatt_hardware_HardwareMemory_nanoSleep
+  (JNIEnv *env, jclass class, jint nanoSeconds) {
+      struct timespec req;
+      req.tv_sec = 0;
+      req.tv_nsec = nanoSeconds;
+      nanosleep(&req, NULL);
+}
 
 /*
  * Class:     com_granolamatt_hardware_HardwareMemory
